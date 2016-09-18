@@ -1,0 +1,10 @@
+.PS
+define smile %
+a=$1
+circle radius a at 0,0
+arc cw radius a*.75 from a*.5,-a*.25 to -a*.5,-a*.25
+"\(bu" at a*.33,a*.25
+"\(bu" at a*-.33,a*.25
+%
+smile(.5)
+.PE

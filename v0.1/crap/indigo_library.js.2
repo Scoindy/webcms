@@ -1,0 +1,231 @@
+/*******************************************************************************
+* Indigo
+********************************************************************************
+* Name          : indigo_library.js
+* Description   : javascript library functions
+* Author        : Scott Walkinshaw
+* Date          : 31st December 2011
+* Parameters    :
+* Comments      :
+  Ext.Msg.alert('Status', 'test');
+********************************************************************************
+*
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 31 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+
+  /****
+  *  Function    : f_submit_form
+  *  Description : saves a filter
+  *  Notes       : action are:
+  *                  I - insert
+  *                  U - update
+  *                  D - delete
+  *                  C - count
+  ****/
+  function f_submit_form (
+             p_action,
+             p_win,
+             p_grid,
+             p_form,
+             p_php,
+             p_id,
+             p_callback,
+             p_check
+           ) {
+
+    /****
+    *  Reinitialise arrays 
+    Ext.getCmp(p_form).forceComponentLayout();
+    ****/
+
+    /****
+    *  Get form values
+    ****/
+    var form = Ext.getCmp(p_form).getForm();
+    
+    /****
+    *  Confirm save and recursively call function
+    ****/
+    if ( p_check == 'Y' ) {
+      if ( p_action == 'U' ) {
+
+        Ext.Msg.show ({
+          title         : 'Save',
+          msg           : 'Are you sure you want to save changes?',
+          modal         : true,
+          buttons       : Ext.Msg.YESNO,
+          fn            : function (btn) {
+                            f_submit_form(p_action, p_win, p_grid, p_form, p_php, p_id, btn)
+                          },
+          icon          : Ext.MessageBox.QUESTION
+//            animateTarget : 'b_save'
+        });
+      };
+
+      /****
+      *  Confirm delete and recursively call function
+      ****/
+      if ( p_action == 'D' ) {
+
+        Ext.MessageBox.show ({
+          title         : 'Delete',
+          msg           : 'Are you sure you want to delete record?',
+          modal         : true,
+          buttons       : Ext.Msg.YESNO,
+            fn            : function (btn) {
+                              f_submit_form(p_action, p_win, p_grid, p_form, p_php, p_id, btn)
+                            },
+            icon        : Ext.MessageBox.QUESTION
+//            animateTarget : 'b_delete'
+        });
+      }
+    };
+
+    /****
+    *  Submit form
+    *
+    *  This looks a bit funny but a value of 'yes' means
+    *  is has passed the check, a value of 'N' means don't check
+    ****/
+    if ( p_check == 'yes' || p_check == 'N' ) {
+
+
+      /****
+      *  We need a callback if we're running
+      if (p_action == 'R' ) {
+
+        form.submit ({
+          clientValidation : false,
+          submitEmptyText  : false,
+          url              : p_php,
+          failure          : function(form, action) {
+                               Ext.Msg.alert('Error', action.result.error);
+                             },
+          callback         : {
+
+            ****
+            *  Set the run_filter_id value in the form
+            ****
+            Ext.getCmp(p_id).setValue(action.result.new_id);
+          },  
+          params           : {
+            action : p_action
+          }
+        });
+      } else {
+      ****/
+
+        form.submit ({
+          clientValidation : false,
+          submitEmptyText  : false,
+          url              : p_php,
+    //      waitMsg          : 'Saving. . .',
+          success          : function(form, action) {
+
+                               if ( p_action == 'I' ) {
+                                 Ext.Msg.alert('Status', 'Record Saved');
+
+                                 /****
+                                 *  Set the hidden ID value in the form
+                                 *  to the newly created ID - this will
+                                 *  let us to update the record from now on
+                                 ****/
+                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+
+                               } else if (p_action == 'U') {
+                                 Ext.Msg.alert('Status', 'Record Saved');
+                               } else if (p_action == 'C') {
+                                 Ext.Msg.alert('Status', 'Record count ['+action.result.count+']');
+                               } else if (p_action == 'R') {
+
+                                 /****
+                                 *  Set the run_filter_id value in the form
+                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+                                 ****/
+//                                 Ext.Msg.alert('Test2', action.result.new_id);
+
+                                 p_callback (
+                                     action.result.new_id,
+                                     'test3'
+                                   );
+
+
+                               } else if (p_action == 'D') {
+
+                                 Ext.Msg.alert('Status', 'Record Deleted');
+                                 /****
+                                 *  Close window
+                                 ****/
+                                 Ext.getCmp(p_win).close();
+
+                                 /****
+                                 *  Reload store
+                                 ****/
+                                 Ext.getCmp(p_grid).getStore().loadPage(1);
+                               }
+                             },
+          failure          : function(form, action) {
+                               Ext.Msg.alert('Error', action.result.error);
+                             },
+/*
+            callback: function(form,action){
+                                 Ext.Msg.alert('Test1', action.result.new_id);
+//                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+         },
+*/
+          params           : {
+            action : p_action
+          }
+        });
+   //   };
+    };
+  };
+
+  /****
+  *  Function    : f_filseg_details
+  *  Description : creates a new filter or manages an existing filter or segment
+  *  Notes       : the structure of the create filter panel
+  *                looks like this to allow the add fieldcontainer
+  *                functionality to work:
+  *
+  *                  fieldset - filter
+  *                  fieldset - rules
+  *                    fieldcontainer  
+  *                      fieldcontainer - labels
+  *                      fieldcontainer - rule fields
+  *                   
+  ****/
+  function f_filseg_detail (
+             p_grid,
+             p_record,
+             p_item,
+             p_index,
+             p_object,
+             p_type
+           ) {
+
+    /****
+    *  Modal window to hold filter / segment detail
+    ****/
+    var w_filseg_detail = Ext.create('Ext.Window', {
+                            id          : 'w_filseg_detail',
+                            title       : 'test',
+                            height      : 500,
+                            width       : 600,
+                            resizable   : false,
+                            draggable   : true,
+                            modal       : true,
+                            closeAction : 'destroy',
+                            layout      : 'fit',
+                            frame       : false
+//                            items       : [fp_filseg_detail]
+                         });
+    /****
+    *  Open the window & add the first rule set
+    ****/
+    w_filseg_detail.show();
+  };

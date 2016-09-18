@@ -1,0 +1,10 @@
+#!/bin/ksh
+
+/usr/ucb/rsh dbprod3 -l amart \
+  "ps -fuoracle | grep -v grep | grep AMP1 | wc -l"  | read SESS
+
+echo "\nAMP1 sessions on dbprod3 [$SESS]\n"
+
+sqlplus -s amdata/c0wpat@amdbs @/usr/users/amart/scottw/dba/server_load
+
+exit 0

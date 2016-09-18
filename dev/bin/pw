@@ -1,0 +1,27 @@
+#!/bin/ksh
+  LINE1="execute SELECT intranet_password  \
+                 INTO   :v_pw1             \
+                 FROM   appn_user          \
+                 WHERE  oracle_username = UPPER('"
+  LINE1="$LINE1$1');"
+  LINE2="execute :v_pw2 := get_token_user(:v_pw1)"
+  LINE3="execute SELECT pass                                 \
+                 INTO   :v_pw3                               \
+                 FROM   salesperson                          \
+                 WHERE  NVL(end_date, SYSDATE + 1) > SYSDATE \
+                 AND    username = UPPER('"
+  LINE3="$LINE3$1');"
+
+  {
+    echo "set feedback off"
+    echo "set serveroutput on size 100000"
+    echo "variable v_pw1 VARCHAR2(2000)"
+    echo "variable v_pw2 VARCHAR2(2000)"
+    echo "variable v_pw3 VARCHAR2(2000)"
+    echo "$LINE1"
+    echo "$LINE2"
+    echo "$LINE3"
+    echo "exec dbms_output.put_line('Intranet - ' || :v_pw2);"
+    echo "exec dbms_output.put_line('POS      - ' || :v_pw3);"
+    echo "exit"
+  } | sqlplus -s amdata/c0wpat@rdprd1

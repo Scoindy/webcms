@@ -1,0 +1,70 @@
+  /****
+  *  Function   : f_segment_contacts
+  *  Descripton : displays filtered contacts
+  *  Notes      : this function is called from the f_submit_form success callback
+  *
+  *  define as variable so we can pass to another function
+  *  when you do this you need to define function before
+  *  variable is used - duh
+  ****/
+  var v_fsc = function f_segment_contacts (
+                         p_segment_id
+                       ) {
+
+    /****
+    *  Call the contacts grid with the filter ID
+    ****/
+    g_segment_contacts = f_contacts (
+      p_segment_id,
+      'S'
+    );
+
+    /****
+    *  Panel to hold the grid
+    ****/
+    Ext.define('indigo.p_segment_contacts', {
+               extend     : 'Ext.panel.Panel',
+               id         : 'p_segment_contacts',
+               alias      : 'widget.p_segment_contacts',
+               region     : 'center',
+               layout     : 'card',
+               animate    : true,
+               margins    : '0 0 0 0', // top right bottom left
+               activeItem : 0,
+               border     : false,
+                               items       : [g_filtered_contacts]
+/*
+               items      : [
+                 {
+                   xtype : 'g_filtered_contacts'
+                 }
+*/
+      });
+
+    /****
+    *  Modal window
+    ****/
+    var w_segment_contacts = Ext.create('Ext.Window', {
+                               id          : 'w_segment_contacts',
+                               title       : 'Segment: ',// +Ext.getCmp('fp_fd2').value,
+                               height      : 600,
+                               width       : 650,
+                               resizable   : false,
+                               draggable   : true,
+                               modal       : true,
+                               closeAction : 'destroy',
+                               layout      : 'fit',
+                               frame       : false,
+                               items      : [
+                                 {
+                                   xtype : 'p_segment_contacts'
+                                 }
+                               ]
+//                               items       : [p_filtered_contacts]
+                            });
+    /****
+    *  Open the window
+    ****/
+    w_segment_contacts.show();
+
+  };

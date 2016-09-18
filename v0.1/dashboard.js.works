@@ -1,0 +1,113 @@
+/*******************************************************************************
+* Indigo v0.2 
+********************************************************************************
+* Name          : dashboard.js
+* Description   : renders dashboard
+* Author        : Scott Walkinshaw
+* Date          : 29th December 2011
+* Parameters    : 
+* Comments      :
+
+
+  Ext.Msg.alert('Status', 'test');
+
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 29 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+
+function f_dashboard() {
+/*
+function f_dashboard (
+           p_records,
+           p_contacts_chart
+         ) {
+
+   Ext.define('indigo.p_logo', {
+                   extend     : 'Ext.Panel',
+                   id         : 'p_logo',
+                   xtype      : 'panel',
+                   region     : 'center',
+                   alias      : 'widget.p_logo',
+                   frame      : true,
+                   border     : false,
+                   height     : 105,
+              });       
+
+     Ext.define('indigo.p_logo', {
+                   extend         : 'Ext.panel.Panel',
+                   id             : 'p_logo',
+                   name           : 'p_logo',
+                   alias          : 'widget.p_logo',
+                   title          : 'Logo'
+              });       
+*/
+
+
+      /****
+      *  Logo panel
+      ****/
+      var v_url = f_render_image('images/datamine_logo_600.jpg');
+      Ext.define('indigo.p_logo', {
+                   extend     : 'Ext.panel.Panel',
+                   id         : 'p_logo',
+//                   xtype      : 'panel',
+                   alias      : 'widget.p_logo',
+//                   region     : 'north',
+                   region     : 'center',
+                   frame      : true,
+                   border     : false,
+                   height     : 105,
+                   items      : [
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer12',
+                       height   : 10
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_image2',
+                       flex     : 1,
+                       readOnly : true,
+                       html     : v_url
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer22',
+                       height   : 10
+                     },
+                   ]
+                 });
+
+
+      /****
+      *  Dashboard panel
+      ****/
+      return Ext.define('indigo.p_dashboard', {
+                    extend : 'Ext.Panel',
+                    id     : 'p_dashboard',
+                    alias  : 'widget.p_dashboard',
+                    title  : 'Dashboard',
+                    layout : 'anchor',
+                   items  : [
+                     {
+                       xtype : 'p_logo'
+                     },
+/*
+                     {
+                       xtype : 'p_data'
+                     },
+                     {
+                       xtype : 'g_db_campaigns'
+                     },
+                     {
+                       xtype : 'p_db_south'
+                     }
+*/
+                   ]
+                 });
+};

@@ -1,0 +1,1075 @@
+/*******************************************************************************
+* Indigo
+********************************************************************************
+* Name          : indigo_library.js
+* Description   : javascript library functions
+* Author        : Scott Walkinshaw
+* Date          : 31st December 2011
+* Parameters    :
+* Comments      :
+  Ext.Msg.alert('Status', 'test');
+********************************************************************************
+*
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 31 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+
+  /****
+  *  Function    : f_submit_form
+  *  Description : saves a filter
+  *  Notes       : action are:
+  *                  I - insert
+  *                  U - update
+  *                  D - delete
+  *                  C - count
+  ****/
+  function f_submit_form (
+             p_action,
+             p_win,
+             p_grid,
+             p_form,
+             p_php,
+             p_id,
+             p_callback,
+             p_check
+           ) {
+
+    /****
+    *  Reinitialise arrays 
+    Ext.getCmp(p_form).forceComponentLayout();
+    ****/
+
+    /****
+    *  Get form values
+    ****/
+    var form = Ext.getCmp(p_form).getForm();
+    
+    /****
+    *  Confirm save and recursively call function
+    ****/
+    if ( p_check == 'Y' ) {
+      if ( p_action == 'U' ) {
+
+        Ext.Msg.show ({
+          title         : 'Save',
+          msg           : 'Are you sure you want to save changes?',
+          modal         : true,
+          buttons       : Ext.Msg.YESNO,
+          fn            : function (btn) {
+                            f_submit_form(p_action, p_win, p_grid, p_form, p_php, p_id, btn)
+                          },
+          icon          : Ext.MessageBox.QUESTION
+//            animateTarget : 'b_save'
+        });
+      };
+
+      /****
+      *  Confirm delete and recursively call function
+      ****/
+      if ( p_action == 'D' ) {
+
+        Ext.MessageBox.show ({
+          title         : 'Delete',
+          msg           : 'Are you sure you want to delete record?',
+          modal         : true,
+          buttons       : Ext.Msg.YESNO,
+            fn            : function (btn) {
+                              f_submit_form(p_action, p_win, p_grid, p_form, p_php, p_id, btn)
+                            },
+            icon        : Ext.MessageBox.QUESTION
+//            animateTarget : 'b_delete'
+        });
+      }
+    };
+
+    /****
+    *  Submit form
+    *
+    *  This looks a bit funny but a value of 'yes' means
+    *  is has passed the check, a value of 'N' means don't check
+    ****/
+    if ( p_check == 'yes' || p_check == 'N' ) {
+
+
+      /****
+      *  We need a callback if we're running
+      if (p_action == 'R' ) {
+
+        form.submit ({
+          clientValidation : false,
+          submitEmptyText  : false,
+          url              : p_php,
+          failure          : function(form, action) {
+                               Ext.Msg.alert('Error', action.result.error);
+                             },
+          callback         : {
+
+            ****
+            *  Set the run_filter_id value in the form
+            ****
+            Ext.getCmp(p_id).setValue(action.result.new_id);
+          },  
+          params           : {
+            action : p_action
+          }
+        });
+      } else {
+      ****/
+
+        form.submit ({
+          clientValidation : false,
+          submitEmptyText  : false,
+          url              : p_php,
+    //      waitMsg          : 'Saving. . .',
+          success          : function(form, action) {
+
+                               if ( p_action == 'I' ) {
+                                 Ext.Msg.alert('Status', 'Record Saved');
+
+                                 /****
+                                 *  Set the hidden ID value in the form
+                                 *  to the newly created ID - this will
+                                 *  let us to update the record from now on
+                                 ****/
+                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+
+                               } else if (p_action == 'U') {
+                                 Ext.Msg.alert('Status', 'Record Saved');
+                               } else if (p_action == 'C') {
+                                 Ext.Msg.alert('Status', 'Record count ['+action.result.count+']');
+                               } else if (p_action == 'R') {
+
+                                 /****
+                                 *  Set the run_filter_id value in the form
+                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+                                 ****/
+//                                 Ext.Msg.alert('Test2', action.result.new_id);
+
+                                 p_callback (
+                                     action.result.new_id,
+                                     'test3'
+                                   );
+
+
+                               } else if (p_action == 'D') {
+
+                                 Ext.Msg.alert('Status', 'Record Deleted');
+                                 /****
+                                 *  Close window
+                                 ****/
+                                 Ext.getCmp(p_win).close();
+
+                                 /****
+                                 *  Reload store
+                                 ****/
+                                 Ext.getCmp(p_grid).getStore().loadPage(1);
+                               }
+                             },
+          failure          : function(form, action) {
+                               Ext.Msg.alert('Error', action.result.error);
+                             },
+/*
+            callback: function(form,action){
+                                 Ext.Msg.alert('Test1', action.result.new_id);
+//                                 Ext.getCmp(p_id).setValue(action.result.new_id);
+         },
+*/
+          params           : {
+            action : p_action
+          }
+        });
+   //   };
+    };
+  };
+
+  /****
+  *  Function    : f_filseg_details
+  *  Description : creates a new filter or manages an existing filter or segment
+  *  Notes       : the structure of the create filter panel
+  *                looks like this to allow the add fieldcontainer
+  *                functionality to work:
+  *
+  *                  fieldset - filter
+  *                  fieldset - rules
+  *                    fieldcontainer  
+  *                      fieldcontainer - labels
+  *                      fieldcontainer - rule fields
+  *                   
+  ****/
+  function f_filseg_detail (
+             p_grid,
+             p_record,
+             p_item,
+             p_index,
+             p_object,
+             p_type
+           ) {
+
+    /****
+    *  Variable to hold number of rules
+    ****/
+    var v_rules = 0;
+
+    /****
+    *  Filter operator model
+    ****/
+    Ext.define('indigo.filter_operator_model', {
+      extend: 'Ext.data.Model',
+      fields: [
+        { name : 'operator_id', type : 'int'    },
+        { name : 'operator',    type : 'string' }
+      ]
+    });
+  
+    /****
+    *  Filter/Segment  operator store
+    ****/
+    var s_filter_operator = Ext.create('Ext.data.Store', {
+                              model           : 'indigo.filter_operator_model',
+                              clearOnPageLoad : true,
+                              autoLoad        : true,
+                              pageSize        : 256,
+                              proxy           : {
+                                type          : 'ajax',
+                                url           : 'fetch_filter_operators.php',
+                                actionMethods : {
+                                  create  : 'POST',
+                                  read    : 'POST',
+                                  update  : 'POST',
+                                  destroy : 'POST'
+                               },
+                               reader         : {
+                                 id            : 'term',
+                                 type          : 'json',
+                                 root          : 'results',
+                                 totalProperty : 'total'
+                               }
+                             },
+                             extraParams      : {
+                               action : ''
+                             }
+                           });
+  
+    /****
+    *  Contact filter model
+    ****/
+    Ext.define('indigo.contact_filter_model', {
+      extend: 'Ext.data.Model',
+      fields: [
+        { name : 'field_id',    type : 'int'    },
+        { name : 'field_label', type : 'string' },
+        { name : 'view_column', type : 'string' }
+      ]
+    });
+  
+    /****
+    *  Contact filter store
+    ****/
+    var s_contact_filter = Ext.create('Ext.data.Store', {
+                             model           : 'indigo.contact_filter_model',
+                             clearOnPageLoad : true,
+                             autoLoad        : true,
+                             pageSize        : 256,
+                             proxy           : {
+                               type          : 'ajax',
+                               url           : 'fetch_contact_filters.php',
+                               actionMethods : {
+                                 create  : 'POST',
+                                 read    : 'POST',
+                                 update  : 'POST',
+                                 destroy : 'POST'
+                              },
+                              reader         : {
+                                id            : 'term',
+                                type          : 'json',
+                                root          : 'results',
+                                totalProperty : 'total'
+                              }
+                            },
+                            extraParams      : {
+                              action : ''
+                            }
+                          });
+
+    /****
+    *  And/Or data
+    ****/
+    var and_or_data = [ 
+          {
+            'label' : 'AND',
+            'value' : 'AND'
+          }, {
+            'label' : 'OR',
+            'value' : 'OR'
+          }
+        ];
+
+    /****
+    *  And/Or model
+    ****/
+    Ext.regModel('and_or_model', {
+      fields: [ 
+        {
+          name : 'label',
+          type : 'string'
+        },
+        {
+          name : 'value',
+         type : 'string'
+        }
+      ]
+    });
+
+    /****
+    *  And/Or store
+    ****/
+    var s_and_or = Ext.create('Ext.data.Store', {
+                     model : 'and_or_model',
+                     data  : and_or_data
+                   });
+
+    /****
+    *  First we've got to do some specific tasks
+    *  if we're looking at an existing record
+    *
+    *  - load the filter rules
+    ****/
+    if (p_grid) {
+      var v_action = 'U';
+
+
+      /****
+      *  Default p_index if empty
+      ****/
+      if (!p_index) p_index = '0';
+
+      /****
+      *  Get the store used by the grid then
+      *  get the record at the index from the store
+      ****/
+      var rec = p_grid.getStore().getAt(p_index);
+      var v_hidden = false;
+
+      /****
+      *  Are we dealing with a filter or a segment?
+      *
+      *  v_filseg_id is the filter or segment ID
+      *  v_name is used for labelling windows and fields
+      ****/
+      if ( p_type == 'F' ) {
+        v_filseg_id = rec.get('filter_id');
+        v_name      = 'Filter';
+      } else {
+        v_filseg_id = rec.get('segment_id');
+        v_name      = 'Segment';
+      };
+
+      /****
+      *  Filter rules model
+      ****/
+      Ext.define('indigo.filter_rules_model', {
+        extend: 'Ext.data.Model',
+        fields: [
+          { name : 'filter_id',      type : 'int'    },
+          { name : 'filter_rule_id', type : 'int'    },
+          { name : 'and_or',         type : 'string' },
+          { name : 'profile_field',  type : 'string' },
+          { name : 'operator',       type : 'string' },
+          { name : 'value',          type : 'string' }
+        ]
+      });
+
+      /****
+      *  Filter rule store - pass in the filter or segment ID
+      ****/
+      var s_filter_rules = Ext.create('Ext.data.Store', {
+                             model           : 'indigo.filter_rules_model',
+                             clearOnPageLoad : true,
+                             autoLoad        : false,
+                             pageSize        : 20,
+                             proxy           : {
+                               type          : 'ajax',
+                               url           : 'fetch_filter_rules.php',
+                               actionMethods : {
+                                 create  : 'POST',
+                                 read    : 'POST',
+                                 update  : 'POST',
+                                 destroy : 'POST'
+                               },
+                               reader        : {
+                                 id            : 'term',
+                                 type          : 'json',
+                                 root          : 'results',
+                                 totalProperty : 'total'
+                               },
+                               extraParams     : {
+                                 filter_id : v_filseg_id
+                               }
+                             }
+                           });
+
+    } else {
+      var v_action = 'I';
+      var v_hidden = true;
+    }   
+
+    /****
+    *  Form panel to hold filter/segment details
+    ****/
+    var fp_filseg_detail = Ext.create('Ext.form.Panel', {
+                             xtype         : 'form',
+                             id            : 'fp_filseg_detail'+p_type,
+                             frame         : true,
+                             autoScroll    : true,
+                             layoutConfig  : {
+                               trackLabels : true,
+                             },
+                             items:       [
+                           {
+                             xtype         : 'fieldset',
+                             id            : 'fs_filseg'+p_type,
+                             title         : v_name,
+                             layout        : 'anchor',
+                             defaultType   : 'textfield',
+                             fieldDefaults : {
+                               labelAlign     : 'left',
+                               labelSeparator : ':'
+                             },
+                             items: [
+                               {
+                                 xtype      : 'hiddenfield',
+                                 id         : 'fp_fd1'+p_type,
+                                 name       : 'filter_id',
+                                 width      : 200,
+                                 readOnly   : true
+                               },
+                               {
+                                 xtype      : 'textfield',
+                                 id         : 'fp_fd2'+p_type,
+                                 width      : 500,
+                                 readOnly   : false,
+                                 allowBlank : false,
+                                 maxLength  : 32,
+                                 fieldLabel : v_name + ' Name',
+                                 listeners : {
+                                   change : f_validate_filseg
+                                 }
+                               },
+                               {
+                                 xtype      : 'textarea',
+                                 id         : 'fp_fd3'+p_type,
+                                 name       : 'description',
+                                 width      : 500,
+                                 height     : 100,
+                                 readOnly   : false,
+                                 allowBlank : true,
+                                 maxLength  : 256,
+                                 fieldLabel : 'Description',
+                                 listeners : {
+                                   change : f_validate_filseg
+                                 }
+                               },
+                               {
+                                 xtype      : 'displayfield',
+                                 id         : 'fp_fd4'+p_type,
+                                 fieldLabel : 'Created Date',
+                                 hidden     : v_hidden,
+                               },
+                               {
+                                 xtype      : 'displayfield',
+                                 id         : 'fp_fd5'+p_type,
+                                 fieldLabel : 'Created By',
+                                 hidden     : v_hidden,
+                               },
+                               {
+                                 xtype      : 'displayfield',
+                                 id         : 'fp_fd6'+p_type,
+                                 fieldLabel : 'Modified Date',
+                                 hidden     : v_hidden,
+                               },
+                               {
+                                 xtype      : 'displayfield',
+                                 id         : 'fp_fd7'+p_type,
+                                 fieldLabel : 'Modified By',
+                                 hidden     : v_hidden,
+                               },
+                               {
+                                 xtype      : 'hiddenfield',
+                                 id         : 'fp_fd8'+p_type,
+                                 name       : 'run_filter_id',
+                                 width      : 200,
+                                 readOnly   : true
+                               }
+                             ]
+                           },
+                           {
+                             xtype         : 'fieldset',
+                             id            : 'fs_rules'+p_type,
+                             title         : v_name + ' Rules',
+                             layout        : 'anchor',
+                             layoutConfig: {
+                               trackLabels: true,
+                             },
+                             items         : [
+                               {
+                                 xtype: 'fieldcontainer',
+                                 layout: 'anchor',
+                                 margin: '0',
+                                 items: [
+                                   {
+                                     xtype: 'fieldcontainer',
+                                     height: 20,
+                                     layout: 'hbox',
+                                     items: [
+                                       {
+                                         xtype : 'displayfield',
+                                         value : 'And / Or',
+                                         width : 85
+                                       },
+                                       {
+                                         xtype : 'displayfield',
+                                         value : 'Profile Field',
+                                         flex  : 1.5
+                                       },
+                                       {
+                                         xtype : 'splitter'
+                                       }, 
+                                       {
+                                         xtype : 'displayfield',
+                                         value : 'Operator',
+                                         flex  : 1
+                                       },
+                                       {
+                                         xtype : 'splitter'
+                                       },
+                                       {
+                                         xtype : 'displayfield',
+                                         value : 'Value',
+                                         flex  : 2
+                                       },
+                                       {
+                                         xtype: 'splitter'
+                                       },
+                                       {
+                                         xtype: 'displayfield',
+                                         value: '',
+                                         width : 75
+                                       }
+                                     ]
+                                   }
+                                 ]
+                               },
+                               {
+                                  xtype  : 'fieldcontainer',
+                                  layout : 'anchor',
+                                  id     : 'cf_rows'+p_type,
+                                  layoutConfig: {
+                                    trackLabels: true,
+                                  },
+                                  margin : '0',
+                                  items  : []
+                               },
+                               {
+                                 xtype: 'fieldcontainer',
+                                 layout: 'hbox',
+                                 items: [
+                                   {
+                                     xtype : 'displayfield',
+                                     value : '',
+                                     flex  : 3
+                                   },
+                                   {
+                                     xtype   : 'button',
+                                     id      : 'cfb_add'+p_type,
+                                     width   : 75,
+                                     text    : 'Add',
+                                     icon    : 'icons/plus_blue_16.png',
+                                     cls     : 'x-btn-text-icon',
+                                     handler : function() {
+                                                 f_add_rule();
+                                               }
+                                   }
+                                 ]
+                               }
+                             ]
+                           }
+                         ],
+                         dockedItems: [
+                           {
+                             xtype       : 'toolbar',
+                             id          : 'ua_t_bottom'+p_type,
+                             name        : 'ua_t_bottom',
+                             dock        : 'bottom',
+                             layout      : {
+                               pack: 'center'
+                             },
+                             items: [
+                               {
+                                 xtype    : 'button',
+                                 id       : 'cfb_count'+p_type,
+                                 width    : 80,
+                                 disabled : false,
+                                 frame    : true,
+                                 border   : true,
+                                 type     : 'submit',
+                                 scale    : 'medium',
+                                 text     : 'Count',
+                                 icon     : 'icons/calc_blue_24.png',
+                                 cls      : 'x-btn-text-icon',
+                                 handler  : function() {
+
+                                   /****
+                                   *  Submit the form
+                                   ****/
+                                   f_submit_form (
+                                     'C',
+                                     'f_filseg_detail',
+                                     'g_segments',
+                                     'fp_filseg_detail',
+                                     'filter_maintenance.php',
+                                     v_filseg_id,
+                                     '',
+                                     'N'
+                                   );
+                                 }
+                               },
+                               {
+                                 xtype    : 'button',
+                                 id       : 'cfb_run'+p_type,
+                                 width    : 80,
+                                 disabled : false,
+                                 frame    : true,
+                                 border   : true,
+                                 type     : 'submit',
+                                 scale    : 'medium',
+                                 text     : 'Run',
+                                 icon     : 'icons/start_blue_24.png',
+                                 cls      : 'x-btn-text-icon',
+                                 handler  : function() {
+
+                                   /****
+                                   *  Submit the form and call
+                                   *  f_filtered_contacts during the submit callback
+                                   ****/
+                                   f_submit_form (
+                                     'R',
+                                     'w_filseg_detail',
+                                     'g_segments',
+                                     'fp_filseg_detail',
+                                     'filter_maintenance.php',
+                                     'fp_fd8',
+                                     v_ffc,
+                                     'N' 
+                                   );
+                                 }
+                               },
+                               {
+                                 xtype    : 'button',
+                                 id       : 'cfb_save'+p_type,
+                                 width    : 80,
+                                 disabled : true,
+                                 frame    : true,
+                                 border   : true,
+                                 type     : 'submit',
+                                 scale    : 'medium',
+                                 text     : 'Save',
+                                 icon     : 'icons/save_blue_24.png',
+                                 cls      : 'x-btn-text-icon',
+                                 handler  : function() {
+
+                                   /****
+                                   *  Submit the form for an insert or update
+                                   ****/
+                                   if (Ext.getCmp('fp_fd1').value) { 
+
+                                     f_submit_form (
+                                       'U',
+                                       'w_filter_detail',
+                                       'g_filters',
+                                       'fp_filter_detail',
+                                       'filter_maintenance.php',
+                                       'fp_fd1',
+                                       '',
+                                       'Y'
+                                     );
+                                   } else {
+                                     f_submit_form (
+                                       'I',
+                                       'w_filter_detail',
+                                       'g_filters',
+                                       'fp_filter_detail',
+                                       'filter_maintenance.php',
+                                       'fp_fd1',
+                                       '',
+                                       'N' 
+                                     );
+                                   };
+
+                                   /****
+                                   *  Enable the delete button once saved
+                                   ****/
+                                   Ext.getCmp('cfb_delete').enable(true);
+                                 }
+                               },
+                               {
+                                 xtype    : 'button',
+                                 id       : 'cfb_delete'+p_type,
+                                 width    : 80,
+                                 disabled : true,
+                                 frame    : true,
+                                 border   : true,
+                                 type     : 'submit',
+                                 scale    : 'medium',
+                                 text     : 'Delete',
+                                 icon     : 'icons/cancel_red_24.png',
+                                 cls      : 'x-btn-text-icon',
+                                 handler  : function() {
+
+                                   f_submit_form (
+                                     'D',
+                                     'w_filter_detail',
+                                     'g_filters',
+                                     'fp_filter_detail',
+                                     'filter_maintenance.php',
+                                     'fp_fd1',
+                                     '',
+                                     'Y'
+                                   );
+                                 }
+                               }
+                             ]
+                           }
+                         ]
+                       });
+    var w_filseg_detail = Ext.create('Ext.Window', {
+                            id          : 'w_filseg_detail',
+                            title       : v_name,
+                            height      : 500,
+                            width       : 600,
+                            resizable   : false,
+                            draggable   : true,
+                            modal       : true,
+                            closeAction : 'destroy',
+                            layout      : 'fit',
+                            frame       : false,
+                            items       : [fp_filseg_detail]
+                         });
+    /****
+    *  Open the window & add the first rule set
+    ****
+    w_filseg_detail.show();
+
+    /****
+    *  If we are dealing with an existing
+    *  filter populate the fields
+    ****/
+    if ( v_action == 'U' ) {
+
+      if ( p_type == 'F' ) { 
+
+        Ext.getCmp('fp_fd1'+p_type).setValue(rec.get('filter_id'));
+        Ext.getCmp('fp_fd2'+p_type).setValue(rec.get('filter_name'));
+
+      } else {
+        Ext.getCmp('fp_fd1'+p_type).setValue(rec.get('segment_id'));
+        Ext.getCmp('fp_fd2'+p_type).setValue(rec.get('segment_name'));
+      };
+
+      Ext.getCmp('fp_fd3'+p_type).setValue(rec.get('description'));
+      Ext.getCmp('fp_fd4'+p_type).setValue(rec.get('created_date'));
+      Ext.getCmp('fp_fd5'+p_type).setValue(rec.get('created_by'));
+      Ext.getCmp('fp_fd6'+p_type).setValue(rec.get('modified_date'));
+      Ext.getCmp('fp_fd7'+p_type).setValue(rec.get('modified_by'));
+
+      /****
+      *  Also enable the delete button
+      ****/
+      Ext.getCmp('cfb_delete'+p_type).enable(true);
+
+    };
+
+    /****
+    *  Function    : f_validate_filseg
+    *  Description : is called when a form field is changed
+    *                and determines whether the form is valid
+    ****/
+    function f_validate_filseg (
+               p_event
+             ) {
+
+      /****
+      *  Toggle enabling of save and count
+      *  buttons depending on form validity
+      ****/
+      if ( Ext.getCmp('fp_filseg_detail').getForm().isValid() == true ) {
+        Ext.getCmp('cfb_save'+p_type).enable(true);
+        
+        /****
+        *  Maximum of 5 rules
+        ****/
+        if ( v_rules < 5 ) {
+          Ext.getCmp('cfb_add'+p_type).enable(true);
+        }
+      } else {
+        Ext.getCmp('cfb_add'+p_type).disable(true);
+        Ext.getCmp('cfb_save'+p_type).disable(true);
+      }
+    };
+
+    /****
+    *  Function    : f_add_rule
+    *  Description : adds rule to the filter
+    *  Notes       : if we're adding a fieldcontainer for
+    *                and existing rule populate the fields
+    *
+    *  obj and e passed in from the hadler
+    ****/
+    function f_add_rule (
+               p_first,
+               p_and_or,
+               p_profile_field,
+               p_operator,
+               p_value
+             ) {
+
+      /****
+      *  Check if this is the first time
+      *  the function has been called, if
+      *  if is we want to hide the and/or combo
+      *  and the delete button
+      ****/
+      if ( p_first == 'Y' ) {
+        var v_disabled = true;
+      };
+
+      /****
+      *  Add a fieldcontainer into fieldcontainer cf_rows
+      ****/
+      Ext.getCmp('fp_filseg_detail').down('#cf_rows'+p_type).add([{
+        xtype       : 'fieldcontainer',
+        height      : 22,
+        layout      : 'hbox',
+        autoDestroy : true,
+        layoutConfig : {
+        trackLabels  : true,
+        },
+        defaultType : 'textfield',
+        items : [
+          {
+            xtype          : 'combobox',
+            name           : 'and_or[]',
+            width          : 75,
+            store          : s_and_or,
+            disabled       : v_disabled,
+            valueField     : 'value',
+            displayField   : 'label',
+            value          : p_and_or,
+            typeAhead      : true,
+            queryMode      : 'local',
+            forceSelection : true,
+            listeners      : {
+              change   : f_validate_filseg
+            }
+
+          },
+          {
+            xtype: 'splitter'
+          }, 
+          {
+            xtype          : 'combobox',
+            name           : 'profile_field[]',
+            flex           : 1.5,
+            store          : s_contact_filter,
+            valueField     : 'view_column',
+            displayField   : 'field_label',
+            value          : p_profile_field,
+            typeAhead      : true,
+            queryMode      : 'local',
+            forceSelection : true,
+            listeners      : {
+              change : f_validate_filseg
+            }
+          },
+          {
+            xtype: 'splitter'
+          }, 
+          {
+            xtype          : 'combobox',
+            name           : 'operator[]',
+            flex           : 1,
+            store          : s_filter_operator,
+            valueField     : 'operator',
+            displayField   : 'operator',
+            value          : p_operator,
+            typeAhead      : true,
+            queryMode      : 'local',
+            forceSelection : true,
+            listeners      : {
+              change : f_validate_filseg
+            }
+          },
+          {
+            xtype: 'splitter'
+          },
+          {
+            name       : 'value[]',
+            value      : p_value,
+            allowBlank : false,
+            flex       : 2,
+            listeners      : {
+              change   : f_validate_filseg
+            }
+          }, 
+          {
+            xtype : 'splitter'
+          },
+          {
+            xtype    : 'button',
+            name     : 'fp_cr_delete[]',
+            width    : 75,
+            disabled : v_disabled,
+            text     : 'Delete',
+            icon     : 'icons/cancel_red_16.png',
+            cls      : 'x-btn-text-icon',
+            handler  : f_delete_rule
+          }
+        ]
+      }]);
+
+      /****
+      *  Now that a rule record has 
+      *  been added disable the save button
+      *  until the form has been validated again
+      ****/
+      Ext.getCmp('cfb_save'+p_type).disable(true);
+
+      /****
+      *  If it's an existing filter or segment
+      *  enable the add button
+      ****/
+      if (p_operator) {
+        Ext.getCmp('cfb_add'+p_type).enable;
+      } else {;
+        Ext.getCmp('cfb_add'+p_type).disable;
+      }
+
+      /****
+      *  Increment number of rules
+      ****/
+      v_rules++;
+    };
+
+    /****
+    *  Function    : f_delete_rule
+    *  Description : deletes a rule from the filter
+    *
+    *  obj and e passed in from the handler
+    ****/
+    function f_delete_rule (
+               p_button,
+               e
+             ) {
+       /****
+       *  Get the ID of the fieldcontainer to remove
+       *  and the parent fieldcontainer (cf_rows)
+       ****/
+       var fc = p_button.up('fieldcontainer');
+       var cr = p_button.up('#cf_rows'+p_type);
+
+       /****
+       *  Firstly remove and destroy the items in the fieldcontainer
+       *  if you don't do this first then the items are not removed
+       *  correctly from the form and their values are visible when submitting
+       *
+       *  This took me 6 fucking hours to work out...
+       ****/
+       p_button.up('fieldcontainer').removeAll(true);
+
+       /****
+       *  Then remove the fieldcontainer itself
+       ****/
+       cr.remove(fc).id;
+
+       /****
+       *  Decrement number of rules
+       ****/
+       v_rules--;
+
+       /****
+       *  Revalidate the form to enable the buttons
+       ****/
+       f_validate_filseg();
+    };
+  
+    /****
+    *  Modal window to hold filter / segment detail
+    ****
+    var w_filseg_detail = Ext.create('Ext.Window', {
+                            id          : 'w_filseg_detail',
+                            title       : v_name,
+                            height      : 500,
+                            width       : 600,
+                            resizable   : false,
+                            draggable   : true,
+                            modal       : true,
+                            closeAction : 'destroy',
+                            layout      : 'fit',
+                            frame       : false,
+                            items       : [fp_filseg_detail]
+                         });
+    /****
+    *  Open the window & add the first rule set
+    ****
+    w_filseg_detail.show();
+*/
+
+    /****
+    *  Add an empty rule field container
+    *  if we're creating a new filter
+    ****/
+    if ( v_action == 'I' ) {
+      f_add_rule('Y');
+    } else {
+
+      /****
+      *  Load the filter rules store with a callback
+      *  so the rules can be added after the AJAX call completes
+      ****/
+      s_filter_rules.load ({
+        callback :  function(records, options, success) {
+
+          /****
+          *  Add a fieldcontainer for each
+          *  rule and populate the fields
+          ****/
+          var v_i = 1;
+          s_filter_rules.each (
+            function (record) {
+
+              if ( v_i == 1 ) {
+                f_add_rule (
+                  'Y',
+                  'AND',
+                  record.get('profile_field'),
+                  record.get('operator'),
+                  record.get('value')
+                )
+                v_i++;
+              } else {
+                f_add_rule (
+                  'N',
+                  record.get('and_or'),
+                  record.get('profile_field'),
+                  record.get('operator'),
+                  record.get('value')
+                )
+              }
+            }
+          )
+        }
+      });
+    }
+  };

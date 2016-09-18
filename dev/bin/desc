@@ -1,0 +1,33 @@
+#!/bin/ksh
+###############################################################################
+# Name        : desc                                                          # 
+# Description :                                                               #
+#                                                                             #
+#                                                                             #
+# Author      : Scott Walkinshaw                                              #
+# Date        : 21st June 1999                                                #
+#                                                                             #
+###############################################################################
+###############################################################################
+# File Modification History                                                   #
+###############################################################################
+# Inits | Date      | Vers | Description                                      #
+# SW    | 21 Jun 99 | 1.00 | Initial Issue                                    #
+###############################################################################
+[ $# -ne 1 ] && echo "usage: desc <table name>" && exit 1
+SQLPATH=""
+{
+  echo "set pages 0"
+  echo "set termout off"
+  echo "set feedback off"
+  echo "set serveroutput off"
+  echo "desc $1"
+} | sqlplus -s amdata/asdfgjkl@RDDEV > /tmp/$1.obj 2>&1
+# grep "^ORA-" /tmp/$1.obj >/dev/null 2>&1     \
+#   && echo "desc: object [$1] doesn't exist"  \
+#   && \rm -f /tmp/$1.obj                      \ 
+#   && exit 1
+
+\vi /tmp/$1.obj
+\rm -f /tmp/$1.obj
+exit 0

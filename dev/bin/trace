@@ -1,0 +1,30 @@
+#!/bin/ksh
+###############################################################################
+# Name        : trace                                                         # 
+# Description :                                                               #
+#                                                                             #
+#                                                                             #
+# Author      : Scott Walkinshaw                                              #
+# Date        : 21st January 1999                                             #
+#                                                                             #
+###############################################################################
+###############################################################################
+# File Modification History                                                   #
+###############################################################################
+# Inits | Date      | Vers | Description                                      #
+# SW    | 21 Jan 99 | 1.00 | Initial Issue                                    #
+###############################################################################
+[ $# -ne 1 ] && echo "usage: trace <filename>" && exit 1
+export ORACLE_SID="RDDEV"
+FILE=/opt/oracle/admin/$ORACLE_SID/udump/$1
+echo $FILE
+[ ! -r $FILE ] && echo "trace: can't find [$1]" && exit 1
+OFILE="$HOME/trace/${1%.*}.tkp"
+
+tkprof $FILE $OFILE SYS=no                        \
+                 TABLE=amdata.plan_table          \
+                 EXPLAIN=amdata/asdfgjkl \
+                 SORT='(prsela,exeela,fchela)' \
+                 PRINT=5000 
+
+exit $?

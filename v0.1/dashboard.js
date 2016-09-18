@@ -1,0 +1,300 @@
+/*******************************************************************************
+* Indigo v0.2 
+********************************************************************************
+* Name          : dashboard.js
+* Description   : renders dashboard
+* Author        : Scott Walkinshaw
+* Date          : 29th December 2011
+* Parameters    : 
+* Comments      :
+
+
+  Ext.Msg.alert('Status', 'test');
+
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 29 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+
+function f_dashboard (
+           p_records,
+           p_contacts_chart
+         ) {
+
+
+      /****
+      *  Contacts pie chart
+      ****/
+      var c_contacts = Ext.create('Ext.chart.Chart', {
+                         animate      : true,
+                         shadow       : true,
+                         store        : p_contacts_chart,
+                         insetPadding : 25,  // margins from the parent container
+                         legend: {
+                           position : 'bottom'
+                         },
+                         series       : [{
+                           type         : 'pie',
+                           field        : 'count',
+                           showInLegend : true,
+                           donut        : 25,  // size of hole
+                           colorSet     : [
+                             '#33CC33',
+                             '#FF3300',
+                             '#0066FF',
+                             '#FF9933',
+                             '#FF33CC'
+                           ],
+                           highlight : {
+                             segment : {
+                               margin : 10
+                             }
+                           },
+                           tips : {
+                             trackMouse: true,
+                             width: 160,
+                             height: 28,
+                             renderer: function(storeItem, item) {
+                               var total = 0;
+                               p_contacts_chart.each (
+                                 function(rec) {
+                                  total += rec.get('count');
+                                 }
+                               );
+                               var v_pct = Math.round(storeItem.get('count') / total * 100);
+                               this.setTitle(storeItem.get('status') + ': ' + storeItem.get('count') + ' (' + v_pct + '%)');
+                             }
+                           },
+                           label : {
+                             field    : 'status',
+                             display  : 'rotate',
+                             contrast : true,
+                             font     : '10px Arial'
+                           }
+                         }]
+                       });
+
+
+      /****
+      *  South panel
+      ****/
+      Ext.define('indigo.p_db_south', {
+                    extend : 'Ext.Panel',
+                    alias  : 'widget.p_db_south',
+//                    title  : 'Dashboard',
+                    region  : 'south',
+                    frame   : true,
+                    height  : 100
+                 });
+
+
+      /****
+      *  Data panel
+      ****/
+      Ext.define('indigo.p_data', {
+                   extend  : 'Ext.panel.Panel',
+                   id      : 'p_data',
+//                   xtype   : 'panel',              // ffs don't make this a form the html editor wouldn't render
+                   alias   : 'widget.p_data',
+                   region  : 'center',
+                   title   : 'Contact Summary',
+                   width      : 200,
+                   frame   : true,
+                   border  : true,
+                   layout  :  'fit',
+                   items   : [c_contacts]
+                 });
+
+  /****
+  *  Campaign reports model
+  ****/
+  Ext.define('indigo.db_campaign_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'campaign_id',        type : 'int'},
+      { name : 'campaign_type_id',   type : 'int'},
+      { name : 'campaign_type',      type : 'string'},
+      { name : 'campaign_name',      type : 'string'},
+      { name : 'campaign_status',    type : 'string'},
+      { name : 'campaign_email_id',  type : 'int'},
+      { name : 'description',        type : 'string'},
+      { name : 'start_date',         type : 'string'},
+      { name : 'end_date',           type : 'string'},
+      { name : 'email_id',           type : 'string'},
+      { name : 'email_name',         type : 'string'},
+      { name : 'created_by',         type : 'string'},
+      { name : 'created_date',       type : 'string'},
+      { name : 'modified_by',        type : 'string'},
+      { name : 'modified_date',      type : 'string'},
+    ]
+  });
+
+  /****
+  *  Campaign reports store
+  ****/
+  var s_db_campaigns = Ext.create('Ext.data.Store', {
+                     model           : 'indigo.db_campaign_model',
+                     clearOnPageLoad : true,
+                     autoLoad        : true,
+                     proxy           : {
+                     type            : 'ajax',
+                     url             : 'fetch_campaigns.php',
+                     actionMethods   : {
+                       create  : 'POST',
+                       read    : 'POST',
+                       update  : 'POST',
+                       destroy : 'POST'
+                    },
+                    reader           : {
+                    id            : 'term',
+                    type          : 'json',
+                    root          : 'results',
+                    totalProperty : 'total'
+                  }
+                }
+              });
+
+
+   /****
+   *  East Panel - campaign grid
+   ****/
+//    var g_db_campaigns = Ext.create('Ext.grid.Panel', {
+Ext.define('indigo.g_db_campaigns', {
+           extend         : 'Ext.grid.Panel',
+
+//                           xtype          : 'grid',
+                           id             : 'g_db_campaigns',
+                           alias          : 'widget.g_db_campaigns',
+                           title          : 'Recently Edited Campaigns',
+                           store          : s_db_campaigns,
+                           region         : 'east',
+                           width          : 400,
+                           trackMouseOver : true,
+//                          layout         : 'fit',
+                          loadMask       : true,
+                          enableHdMenu   : true,
+                          stripeRows     : true,
+//                          autoRender     : true,  // do not autorender if grid is in another component
+                          autoShow       : true,
+/*
+                          listeners      : {
+                            itemdblclick : function() {
+                                             f_contacts();  // pass in the store like we do for filseg!!! store will have to be superset of contacts store union v_cr_emails
+                                           }
+                          },
+*/
+        columns        : [
+             {
+               id        : 'gdb_c12',
+               text      : 'Campaign ID',
+               width     : 80,
+               sortable  : true,
+               dataIndex : 'campaign_id'
+             },
+             {
+               id        : 'gdb_c22',
+               text      : 'Campaign Name',
+               width     : 150,
+               sortable  : true,
+               dataIndex : 'campaign_name'
+             },
+            {
+               id        : 'gdb_c32',
+               text      : 'Campaign Type',
+               width     : 100,
+               sortable  : true,
+               dataIndex : 'campaign_type'
+             },
+             {
+               id        : 'gdb_c42',
+               text      : 'Status',
+               flex      : 1,
+               sortable  : true,
+               dataIndex : 'campaign_status'
+             },
+/*
+             {
+               id        : 'gdb_c52',
+               text      : 'Start Date',
+               width     : 100,
+               sortable  : true,
+               dataIndex : 'start_date'
+             },
+             {
+               id        : 'gdb_c52',
+               text      : 'End Date',
+               flex      : 1,
+               sortable  : true,
+               dataIndex : 'end_date'
+             }
+*/
+
+                          ]
+                        });
+
+
+      /****
+      *  Logo panel
+      ****/
+      var v_url = f_render_image('images/datamine_logo_600.jpg');
+      Ext.define('indigo.p_logo', {
+                   extend     : 'Ext.Panel',
+                   id         : 'p_logo',
+//                   xtype      : 'panel',
+                   alias      : 'widget.p_logo',
+                   region     : 'north',
+                   frame      : true,
+                   border     : false,
+                   height     : 105,
+                   items      : [
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer12',
+                       height   : 10
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_image2',
+                       flex     : 1,
+                       readOnly : true,
+                       html     : v_url
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer22',
+                       height   : 10
+                     },
+                   ]
+                 });
+
+
+      /****
+      *  Dashboard panel
+      ****/
+      return Ext.define('indigo.p_dashboard', {
+                    extend : 'Ext.Panel',
+                    alias  : 'widget.p_dashboard',
+                    title  : 'Dashboard',
+                    layout : {
+                       type : 'border'
+                    },
+                   items  : [
+                     {
+                       xtype : 'p_logo'
+                     },
+                     {
+                       xtype : 'p_data'
+                     },
+                     {
+                       xtype : 'g_db_campaigns'
+                     },
+                     {
+                       xtype : 'p_db_south'
+                     }
+                   ]
+                 });
+};

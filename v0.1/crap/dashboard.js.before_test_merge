@@ -1,0 +1,168 @@
+/*******************************************************************************
+* Indigo v0.2 
+********************************************************************************
+* Name          : dashboard.js
+* Description   : renders dashboard
+* Author        : Scott Walkinshaw
+* Date          : 29th December 2011
+* Parameters    : 
+* Comments      :
+
+
+  Ext.Msg.alert('Status', 'test');
+
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 29 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+function f_dashboard (
+           p_records
+         ) {
+
+  /****
+  *  There will only be 1 record in p_records
+  ****/
+  var v_record = p_records[0];
+    
+      /****
+      *  Data panel
+      ****/
+      Ext.define('indigo.p_data', {
+                   extend     : 'Ext.panel.Panel',
+                   id         : 'p_data',
+                   xtype      : 'form',
+                   alias      : 'widget.p_data',
+                   frame      : true,
+                   frame      : true,
+                   border     : false,
+                   defaults   : {
+                     anchor     : '100%',
+                     flex      : 1,
+                     labelWidth : 250,
+                     readOnly   : true,
+                     hidden     : false
+                   },
+                   items      : [
+                     {
+                       xtype          : 'fieldset',
+                       id             : 'pd_fs_contacts',
+                       title          : 'Contacts',
+                       checkboxToggle : false,
+                       collapsed      : false,
+                       layout         : 'anchor',
+                       defaultType    : 'displayfield',
+                       fieldDefaults  : {
+                         labelAlign     : 'left',
+                         labelSeparator : ':'
+                       },
+                       items: [
+                         {
+                           id         : 'pd_fsc_1',
+                           fieldLabel : 'Total Contacts',
+                           value      : v_record.get('contact_total')
+                         }
+                       ]
+                     },
+                     {
+                       xtype          : 'fieldset',
+                       id             : 'pd_fs_segments',
+                       title          : 'Segments',
+                       checkboxToggle : false,
+                       collapsed      : false,
+                       layout         : 'anchor',
+                       defaultType    : 'displayfield',
+                       fieldDefaults  : {
+                         labelAlign     : 'left',
+                         labelSeparator : ':'
+                       },
+                       items: [
+                         {
+                           id         : 'pd_fsc_2',
+                           fieldLabel : 'Total Segments',
+                           value      : v_record.get('segment_count')
+                         }
+                       ]
+                     },
+                     {
+                       xtype          : 'fieldset',
+                       id             : 'pd_fs_campaigns',
+                       title          : 'Campaigns',
+                       checkboxToggle : false,
+                       collapsed      : false,
+                       layout         : 'anchor',
+                       defaultType    : 'displayfield',
+                       fieldDefaults  : {
+                         labelAlign     : 'left',
+                         labelSeparator : ':'
+                       },
+                       items: [
+                         {
+                           id         : 'pd_fsc_3',
+                           fieldLabel : 'Total Campaigns',
+                           value      : v_record.get('campaign_count')
+                         }
+                       ]
+                     }
+                   ]
+                 });
+    
+      /****
+      *  Logo panel
+      ****/
+      var v_url = f_render_image('images/datamine_logo.jpg');
+      Ext.define('indigo.p_logo', {
+                   extend     : 'Ext.panel.Panel',
+                   id         : 'p_logo',
+                   xtype      : 'form',
+                   alias      : 'widget.p_logo',
+                   frame      : true,
+                   frame      : true,
+                   border     : false,
+                   width      : 500,
+                   items      : [ 
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer1',
+                       height   : 10
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_image',
+                       flex     : 1,
+                       readOnly : true,
+                       html     : v_url
+                     },
+                     {
+                       xtype    : 'component',
+                       id       : 'pl_spacer2',
+                       height   : 10
+                     },
+                   ]
+                 });
+
+      /****
+      *  Dashboard panel
+      ****/
+    Ext.define('indigo.p_dashboard', {
+                          extend : 'Ext.Panel',
+                          alias  : 'widget.p_dashboard',
+                          title  : 'Dashboard',
+                          layout : {
+                            type  : 'vbox',
+                            align : 'stretch',
+                            pack  : 'start'
+                          },
+                          items  : [
+                            {
+                              xtype : 'p_logo'
+                            },
+                            {
+                              xtype : 'p_data'
+                            }
+                          ]
+                        });
+};

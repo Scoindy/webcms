@@ -1,0 +1,26 @@
+#!/bin/ksh
+
+usage() {
+  echo "usage: pi <pid> <w|p>"
+  exit 1
+}
+
+[ $# -ne 2 ] && usage
+
+case $2 in 
+  p) CON="amdata/c0wpat"
+     SID="RDPRD"
+     ;;
+  w) CON="rd1/r3port"
+     SID="RDDWP"
+     ;;
+  *) usage
+     ;;
+esac 
+
+sqlplus -s ${CON}@${SID}1 @/home/scott/dba/process_details $1 ${SID}2
+
+exit $?
+
+
+

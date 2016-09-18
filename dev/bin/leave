@@ -1,0 +1,7 @@
+#!/bin/ksh
+
+[ $# -ne 1 ] && echo "usage: leave <surname>" && exit 1
+
+sqlplus -s rd1/r3port@rddwp1 @/home/scott/sql/l.sql $1
+
+echo

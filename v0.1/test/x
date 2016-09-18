@@ -1,0 +1,16 @@
+#!/usr/bin/php
+<?php
+
+  $test_address = "scott@dev1";
+
+  $string = "<html><body bgcolor=white><br>  <200b><br><br><img src=http://indigo.com/images/earth%20001.jpg><br><br>Dear Dante</body></html>";
+
+  $email_subject = "test email";
+
+  $header  = "From: scott@test.com\r\n";
+  $header .= "Reply-to: reply@test.com\r\n"; 
+  $header .= "Content-type: text/html\r\n"; 
+
+  mail($test_address, $email_subject, $string, $header);
+
+?>

@@ -1,0 +1,5 @@
+#!/bin/ksh
+
+sqlplus -s amdata/c0wpat@rdprd1 @/home/scott/sql/reports | less
+
+exit

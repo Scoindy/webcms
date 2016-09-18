@@ -1,0 +1,268 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="ext/resources/css/ext-all.css"/>
+    <script type="text/javascript" src="ext/adapter/ext/ext-base.js"></script>
+    <script type="text/javascript" src="ext/ext-all.js"></script>
+    <!-- data view plugins -->
+    <script type="text/javascript" src="ext/ux/DataView-more.js"></script>
+    <link rel="stylesheet" type="text/css" href="ext/ux/data-view.css"/>
+    <!-- fileuploadinput -->
+    <script type="text/javascript" src="ext/ux/FileUploadField.js"></script>
+    <link rel="stylesheet" type="text/css" href="ext/ux/fileuploadfield.css"/>
+    <script type="text/javascript">
+    Ext.onReady(function(){
+        var store = new Ext.data.JsonStore({
+            proxy: new Ext.data.HttpProxy({
+                url: 'get-images.php', method: 'POST'
+            }),
+            root: 'images',
+            fields: [
+                'name', 'url',
+                { name: 'size', type: 'float' },
+                { name: 'lastmod', type: 'date', dateFormat: 'timestamp' },
+                'thumb_url'
+            ]
+        });
+        store.load();
+
+        var tpl = new Ext.XTemplate(
+            '<tpl for=".">',
+                '<div class="thumb-wrap" id="{name}">',
+                '<div class="thumb"><img src="{thumb_url}" title="{name}"></div>',
+                '<span class="x-editable">{shortName}</span></div>',
+            '</tpl>',
+            '<div class="x-clear"></div>'
+        );
+
+        var tplDetail = new Ext.XTemplate(
+            '<div class="details">',
+				'<tpl for=".">',
+					'<img src="{thumb_url}"><div class="details-info">',
+					'<b>Image Name:</b>',
+					'<span>{name}</span>',
+					'<b>Size:</b>',
+					'<span>{sizeString}</span>',
+					'<b>Last Modified:</b>',
+					'<span>{dateString}</span>',
+                    '<span><a href="{url}" target="_blank">view original</a></span></div>',
+				'</tpl>',
+			'</div>'
+        );
+
+        var tbar = new Ext.Toolbar({
+            style: 'border:1px solid #99BBE8;'
+        });
+        
+        tbar.add('->', {
+            text: 'Delete',
+            icon: 'img/delete.png',
+            handler: function() {
+                var records = datav.getSelectedRecords();
+                if (records.length != 0) {
+                    var imgName = '';
+                    for (var i = 0; i < records.length; i++) {
+                        imgName = imgName + records[i].data.name + ';';
+                    }
+                    Ext.Ajax.request({
+                       url: 'delete.php',
+                       method: 'post',
+                       params: { images: imgName},
+                       success: function() {
+                           store.load();
+                       }
+                    });
+                }
+            }
+        });
+
+        var datav = new Ext.DataView({
+            autoScroll: true, store: store, tpl: tpl,
+            autoHeight: false, height: 400, multiSelect: true,
+            overClass: 'x-view-over', itemSelector: 'div.thumb-wrap',
+            emptyText: 'No images to display',
+            style: 'border:1px solid #99BBE8; border-top-width: 0',
+
+//            plugins: [
+//                new Ext.DataView.DragSelector(),
+//            ],
+/*
+            prepareData: function(data){
+                data.shortName = Ext.util.Format.ellipsis(data.name, 15);
+                data.sizeString = Ext.util.Format.fileSize(data.size);
+                data.dateString = data.lastmod.format("m/d/Y g:i a");
+                return data;
+            },
+*/
+            listeners: {
+/*
+                selectionchange: {
+                    fn: function(dv,nodes){
+                        var l = nodes.length;
+                        var s = l != 1 ? 's' : '';
+                        panelLeft.setTitle('Simple DataView Gallery ('+l+' image'+s+' selected)');
+                    }
+                },
+*/
+                click: {
+                    fn: function() {
+                        var selNode = datav.getSelectedRecords();
+                        tplDetail.overwrite(panelRightBottom.body, selNode[0].data);
+                    }
+                }
+            }
+        })
+
+        var panelLeft = new Ext.Panel({
+            id: 'images-view',
+            frame: true,
+            width: 520,
+            height: 200,
+            autoHeight: true,
+            layout: 'auto',
+            title: 'Simple DataView Gallery (0 images selected)',
+            items: [tbar,datav]
+        });
+        panelLeft.render('left');
+
+        var panelRightTop = new Ext.FormPanel({
+            title: 'Upload Images',
+            width: 270,
+            renderTo: 'right-top',
+            buttonAlign: 'center',
+            labelWidth: 50,
+            fileUpload: true,
+            frame: true,
+            items: [{
+                xtype: 'fileuploadfield',
+                emptyText: '',
+                fieldLabel: 'Image 1',
+                buttonText: 'Select a File',
+                width: 200,
+                name: 'img[]'
+            }, {
+                xtype: 'fileuploadfield',
+                emptyText: '',
+                fieldLabel: 'Image 2',
+                buttonText: 'Select a File',
+                width: 200,
+                name: 'img[]'
+            }, {
+                xtype: 'fileuploadfield',
+                emptyText: '',
+                fieldLabel: 'Image 3',
+                buttonText: 'Select a File',
+                width: 200,
+                name: 'img[]'
+            }, {
+                xtype: 'fileuploadfield',
+                emptyText: '',
+                fieldLabel: 'Image 4',
+                buttonText: 'Select a File',
+                width: 200,
+                name: 'img[]'
+            }, {
+                xtype: 'fileuploadfield',
+                emptyText: '',
+                fieldLabel: 'Image 5',
+                buttonText: 'Select a File',
+                width: 200,
+                name: 'img[]'
+            }],
+            buttons: [{
+                text: 'Upload',
+                handler: function() {
+                    panelRightTop.getForm().submit({
+                        url: 'upload.php',
+                        waitMsg: 'Uploading ....',
+                        success: function(form, o) {
+                            obj = Ext.util.JSON.decode(o.response.responseText);
+                            if (obj.failed == '0' && obj.uploaded != '0') {
+                                Ext.Msg.alert('Success', 'All files uploaded');
+                            } else if (obj.uploaded == '0') {
+                                Ext.Msg.alert('Success', 'Nothing Uploaded');
+                            } else {
+                                Ext.Msg.alert('Success',
+                                    obj.uploaded + ' files uploaded <br/>' +
+                                    obj.failed + ' files failed to upload');
+                            }
+                            panelRightTop.getForm().reset();
+                            store.load();
+                        }
+                    });
+                }
+            }, {
+                text: 'Reset',
+                handler: function() {
+                    panelRightTop.getForm().reset();
+                }
+            }]
+        });
+
+        var panelRightBottom = new Ext.Panel({
+            title: 'Image Detail',
+            frame: true,
+            width: 270,
+            height: 255,
+            id: 'panelDetail',
+            renderTo: 'right-bottom',
+            tpl: tplDetail
+        });
+    });
+    </script>
+    <title>Extjs Image Gallery Using DataView</title>
+    <style type="text/css">
+        body {
+            padding: 20px;
+            margin: 0 auto;
+        }
+        #container {
+            padding: 10px;
+            background: #e3e3e3;
+            border: 1px solid #d3d3d3;
+            margin: 0 auto;
+            width: 820px;
+        }
+        #left {
+            float: left;
+        }
+        #right {
+            float: right;
+        }
+        #right-bottom {
+            margin-top: 10px;
+        }
+        .clear {
+            clear: both;
+        }
+        .details {
+            padding: 10px;
+            font-family: "Arial";
+            font-size: 11px;
+        }
+        .details-info {
+            margin-top: 10px;
+        }
+        .details-info span {
+            display: block;
+        }
+        .details-info span a {
+            color: #0066cc;
+        }
+        .details-info span a:hover {
+            text-decoration: none;
+        }
+    </style>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+      <div id="container">
+          <div id="left"></div>
+          <div id="right">
+              <div id="right-top"></div>
+              <div id="right-bottom"></div>
+          </div>
+          <div class="clear"></div>
+      </div>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+
+for ARG in "$@"; do
+
+   case $ARG in
+     -l) LOAD=$$
+         shift
+         ;;
+      *) DATE="$ARG"
+         shift
+         ;;
+   esac
+
+done
+
+[ -n "$LOAD" ] && echo "LOADING"
+[ -n "$DATE" ] && echo "GOT DATE [$DATE]"

@@ -1,0 +1,21 @@
+#!/bin/ksh
+[ $# -ne 2 ] && echo "usage: sload <-d|-t|-p> string" && exit 1
+
+\rm -f $2.bad $2.dsc $2.log
+
+case $1 in
+  -rpe) CS="scott/vodafone@RPE"
+        ;;
+    -t) CS="scott/vodafone@RD1APPT"
+        ;;
+     *) echo "Unknown flag '$1'"
+        echo "usage: sload <-d|-t|-p> string" 
+        exit 1
+       ;;
+esac
+
+sqlldr $CS control=$2.ctl \
+              data=$2.dat \
+               log=$2.log \
+               bad=$2.bad \
+           discard=$2.dsc 

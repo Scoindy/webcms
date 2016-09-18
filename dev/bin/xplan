@@ -1,0 +1,47 @@
+#!/bin/ksh
+###############################################################################
+# Name        : xplan                                                         # 
+# Description :                                                               #
+#                                                                             #
+#                                                                             #
+# Author      : Scott Walkinshaw                                              #
+# Date        : 21st January 1999                                             #
+#                                                                             #
+###############################################################################
+###############################################################################
+# File Modification History                                                   #
+###############################################################################
+# Inits | Date      | Vers | Description                                      #
+# SW    | 21 Jan 99 | 1.00 | Initial Issue                                    #
+###############################################################################
+[ $# -lt 1 -o $# -gt 2 ] && echo "usage: xplan <filename> [connect string]" \
+                         && exit 1
+[ ! -r $1 ] && echo "xplan: can't find [$1]" && exit 1
+[ $(grep -c '/' $1) -eq 0 ] && echo "xplan: add a '/' Jenny. . ." && exit 1
+TFILE="/tmp/xplan$$.sql"
+XFILE="${1%.*}.xpl"
+
+{
+  echo "set feedback off"
+  echo "truncate table plan_table;"
+  echo "exit"
+} | sqlplus -s $VIP_ADMIN
+
+#####
+#  Uncomment lines below if init.ora not set 
+#####
+# echo "alter session set query_rewrite_enabled=TRUE;" > $TFILE
+echo "set scan off" >> $TFILE
+echo "explain plan\nset statement_id = 'SCOTT'\nfor" >> $TFILE
+cat $1 >> $TFILE
+echo "exit" >> $TFILE
+
+sqlplus -s ${2:-$VIP_ADMIN} @$TFILE
+
+sqlplus -s $VIP_ADMIN @/vip_test/scott/bin/xplan.sql $XFILE
+# sqlplus -s $VIP_ADMIN @/vip_test/scott/bin/xplan2.sql $XFILE
+
+trim $XFILE
+\vi $XFILE
+\rm -f $TFILE
+exit $?

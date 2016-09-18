@@ -1,0 +1,16 @@
+#!/bin/bash
+
+[ $# -ne 1 ] && echo "usage: zap <directory>" && exit 1
+
+if [ -d $HOME/dev/$1 ]; then
+  echo "zap: directory [$HOME/dev/$1] already exists"
+  echo "zap: updating config file"
+  echo "cd $HOME/dev/$1" > $HOME/.zoom
+else
+  echo "zap: creating directory [$HOME/dev/$1]"
+  mkdir $HOME/dev/$1
+  echo "zap: updating config file"
+  echo "cd $HOME/dev/$1" > $HOME/.zoom
+fi
+exit 0
+

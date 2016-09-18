@@ -1,0 +1,15 @@
+#!/usr/bin/php
+<?php
+
+
+  /****
+  *  Includes
+  ****/
+  require_once '../indigo_config.php';
+
+
+
+$sdt = date("Y-m-d H:i:s");
+
+echo $sdt
+?>

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+{
+  echo "USE dev1;"
+  echo "CALL p_create_user('Scott', 'Walkinshaw', 'scott', 'scott', 1);"
+} | mysql -v -uscott

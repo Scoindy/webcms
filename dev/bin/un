@@ -1,0 +1,14 @@
+#!/bin/ksh
+  LINE1="SELECT oracle_username || ' - ' || first_name || ' ' || surname    \
+         FROM   appn_user          \
+         WHERE  lower(surname) LIKE '%"
+  LINE1="$LINE1$1%';"
+  {
+    echo "set feedback off"
+    echo "set serveroutput on size 100000"
+    echo "set head off"
+    echo "$LINE1"
+    echo "exit"
+  } | sqlplus -s amdata/c0wpat@rdprd1
+
+echo

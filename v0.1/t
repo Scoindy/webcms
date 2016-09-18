@@ -1,0 +1,128 @@
+  /****
+  *  f_select_template
+  ****/
+  function f_select_template() {
+
+
+    /****
+    *  Selection window
+    ****/
+    var w_template = Ext.create('Ext.Window', {
+                       id          : 'w_template',
+                       title       : 'Template or Ad-hoc email?',
+                       height      : 150,
+                       width       : 250,
+                       resizable   : false,
+                       draggable   : true,
+                       modal       : true,
+                       closeAction : 'destroy',
+                       layout      : 'fit',
+                       frame       : false,
+                       items       : [
+                         {
+                           xtype  : 'form',
+                           id     : 'wt_form',
+                           frame  : true,
+                           items  : [ 
+                             {
+                               xtype          : 'combobox',
+                               id             : 'wt_templates',
+                               store          : s_templates,
+                               valueField     : 'template_id',
+                               displayField   : 'template_name',
+                               value          : 'template_name',
+                               typeAhead      : true,
+                               queryMode      : 'local',
+                               forceSelection : true,
+                               emptyText      : 'select',
+                               style          : 'margin : 15 20 15 40',  // top right bottom left
+                               listeners : {
+                                 change : function() {
+                                            f_validate_form (
+                                              'wt_form',
+                                              'ts_template'
+                                            )
+                                          }
+                               }
+
+ 
+                             }
+                           ]
+                         }
+                       ],
+                       dockedItems: [
+                         {
+                           xtype       : 'toolbar',
+                           id          : 'ts_t_bottom',
+                           name        : 'ts_t_bottom',
+                           dock        : 'bottom',
+                           layout      : {
+                             pack: 'center'
+                           },
+                           items: [
+                             {
+                               xtype     : 'button',
+                               id        : 'ts_template',
+                               width     : 80,
+                               frame     : true,
+                               border    : true,
+                               type      : 'submit',
+                               scale     : 'medium',
+                               text      : 'Template',
+                               disabled  : true,
+                               icon      : 'icons/wizard_blue_24.png',
+                               iconAlign : 'top',
+                               cls       : 'x-btn-text-icon',
+                               handler   : function() {
+
+                                 /****
+                                 *  Get template store record
+                                 ****/
+                                 var v_i = Ext.getCmp('wt_templates').getValue();
+ 
+                                 /****
+                                 *  And insert the template
+                                 ****/
+                                 v_i          = Number(--v_i);
+                                 var v_record = s_templates.getAt(v_i);
+                                 var v_html   = v_record.get('html');
+
+                                 Ext.getCmp('fp_ed_body').setValue(v_html);
+
+                                 /****
+                                 *  Close the window
+                                 ****/
+                                 Ext.getCmp('w_template').destroy();
+                                 
+ 
+                               }
+                             },
+                             {
+                               xtype     : 'button',
+                               id        : 'ts_adhoc',
+                               width     : 80,
+                               frame     : true,
+                               border    : true,
+                               type      : 'submit',
+                               scale     : 'medium',
+                               text      : 'Ad-hoc',
+                               icon      : 'icons/write_message_blue_24.png',
+                               iconAlign : 'top',
+                               cls       : 'x-btn-text-icon',
+                               handler   : function() {
+ 
+                                 /****
+                                 *  Close the window
+                                 ****/
+                                 Ext.getCmp('w_template').destroy();
+                               }
+                             }
+                           ]
+                         }
+                       ]
+                    });
+
+    w_email_detail.toBack;
+    w_template.show();
+    w_template.toFront();
+  };

@@ -1,0 +1,571 @@
+/*******************************************************************************
+* Indigo
+********************************************************************************
+* Name          : contacts.js
+* Description   : manages contacts grid
+* Author        : Scott Walkinshaw
+* Date          : 4th June 2011
+* Parameters    : 
+* Comments      : 
+  Ext.Msg.alert('Status', 'test');
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 04 Jun 11 | Initial issue                                     *
+*******************************************************************************/
+function f_contacts (
+          p_filter_id
+         ) {
+
+  /****
+  *  Function to handle grid double-click
+  *
+  *  p_grid - the grid called from   Ext.view.View (also grids)
+  *  p_record - the record that belongs to the item  Ext.data.Model
+  *  p_item   - the item's element   HTMLElement
+  *  p_index  - index into the item NUMBER
+  *  p_object  - the event object OBJECT
+  *
+  *  options - not sure maybe put function to call to make
+  *            this a generic handler? e.g. function to call
+  ****/
+  function f_contact (
+             p_grid,
+             p_record,
+             p_item,
+             p_index,
+             p_object,
+             p_label_store
+           ) {
+
+    /****
+    *  Default p_index if empty
+    ****/
+    if (!p_index) p_index = '0';
+
+    /****
+    *  Stick the labels in a simple array
+    * 
+    *  The first element is dummy label
+    *  to keep the array elements in line
+    *  with the profile fields numbering
+    ****/
+    var v_label = p_label_store.collect('field_label');
+
+    /****
+    *  Get the store used by the grid then
+    *  get the record at the index from the store
+    ****/
+    var rec = p_grid.getStore().getAt(p_index);
+
+    /****
+    *  Form panel to hold profile data
+    ****/
+    var fp_profile =  Ext.create('Ext.form.Panel', {
+                        xtype       : 'form',
+                        id          : 'fp_profile',
+                        autoScroll  : true,
+                        fieldDefaults: {
+                          labelAlign : 'left',
+                          labelWidth : 90
+                        },
+                        frame       : true,
+                        items       : [
+                          {
+                            xtype          :'fieldset',
+                            checkboxToggle : false,
+                            title          : 'Contact',
+                            defaultType    : 'displayfield',
+                            collapsed      : false,
+                            layout         : 'anchor',
+                            defaults       : {
+                              anchor     : '100%',
+                              width      : 200,
+                              labelWidth : 150,
+                              readOnly   : true,
+                              hidden     : false
+                            },
+                            items : [
+                              {
+                                id         : 'fpc_tf1',
+                                fieldLabel : 'Contact ID',
+                                value      : rec.get('contact_id')
+                              },
+                              {
+                                id         : 'fpc_tf2',
+                                fieldLabel : 'Client ID',
+                                value      : rec.get('client_id')
+                              },
+                              {
+                                id         : 'fpc_tf3',
+                                fieldLabel : 'Full Name',
+                                value      : rec.get('full_name')
+                              },
+                              {
+                                id         : 'fpc_tf4',
+                                fieldLabel : 'Email Address',
+                                value      : rec.get('email_address')
+                              },
+                              {
+                                xtype          : 'checkbox',
+                                id             : 'fpc_tf4',
+                                fieldLabel     : 'Email Permission',
+                                inputValue     : 1,
+                                checked        : rec.get('email_permission'),
+                                uncheckedValue : 0,
+                              },
+                              {
+                                id         : 'fpc_tf5',
+                                fieldLabel : 'Date Created',
+                                value      : rec.get('created_date')
+                              },
+                              {
+                                id         : 'fpc_tf6',
+                                fieldLabel : 'Date Modified',
+                                value      : rec.get('modified_date')
+                              }
+                            ]
+                          },
+                          {
+                            xtype          :'fieldset',
+                            checkboxToggle : false,
+                            title          : 'Profile Fields',
+                            defaultType    : 'textfield',
+                            collapsed      : false,
+                            layout         : 'anchor',
+                            defaults       : {
+                              anchor     : '98%',  // specifies how wide the fieldset is in relation to the panel
+                              labelWidth : 150,    // consider trying to right-justify labels
+//                              labelPad   : 20,
+                              width      : 150,
+                              readOnly   : true,
+                              hidden     : false
+                            },
+                            items : [
+                              {
+                                id         : 'fpp_tf1',
+                                fieldLabel : v_label[1],
+                                value      : rec.get('profile_field_01')
+                              },
+                              {
+                                id         : 'fpp_tf2',
+                                fieldLabel : v_label[2],
+                                value      : rec.get('profile_field_02')
+                              },
+                              {
+                                id         : 'fpp_tf3',
+                                fieldLabel : v_label[3],
+                                value      : rec.get('profile_field_03')
+                              },
+                              {
+                                id         : 'fpp_tf4',
+                                fieldLabel : v_label[4],
+                                value      : rec.get('profile_field_04')
+                              },
+                              {
+                                id         : 'fpp_tf5',
+                                fieldLabel : v_label[5],
+                                value      : rec.get('profile_field_05')
+                              },
+                              {
+                                id         : 'fpp_tf6',
+                                fieldLabel : v_label[6],
+                                value      : rec.get('profile_field_06')
+                              },
+                              {
+                                id         : 'fpp_tf7',
+                                fieldLabel : v_label[7],
+                                value      : rec.get('profile_field_07')
+                              },
+                              {
+                                id         : 'fpp_tf8',
+                                fieldLabel : v_label[8],
+                                value      : rec.get('profile_field_08')
+                              },
+                              {
+                                id         : 'fpp_tf9',
+                                fieldLabel : v_label[9],
+                                value      : rec.get('profile_field_09')
+                              },
+                              {
+                                id         : 'fpp_tf10',
+                                fieldLabel : v_label[10],
+                                value      : rec.get('profile_field_10')
+                              },
+                              {
+                                id         : 'fpp_tf11',
+                                fieldLabel : v_label[11],
+                                value      : rec.get('profile_field_11')
+                              },
+                              {
+                                id         : 'fpp_tf12',
+                                fieldLabel : v_label[12],
+                                value      : rec.get('profile_field_12')
+                              },
+                              {
+                                id         : 'fpp_tf13',
+                                fieldLabel : v_label[13],
+                                value      : rec.get('profile_field_13')
+                              },
+                              {
+                                id         : 'fpp_tf14',
+                                fieldLabel : v_label[14],
+                                value      : rec.get('profile_field_14')
+                              },
+                              {
+                                id         : 'fpp_tf15',
+                                fieldLabel : v_label[15],
+                                value      : rec.get('profile_field_15')
+                              }
+                            ]
+                          }
+                        ]
+                      });
+
+
+    /****
+    *  Modal window to hold contact profile data
+    ****/
+    var w_profile = Ext.create('Ext.Window', {
+                      id          : 'w_profile'+p_filter_id,
+                      name        : 'w_profile',
+                      title       : rec.get('full_name'),
+                      height      : 400,
+                      width       : 500,
+                      resizable   : false,
+                      draggable   : true,
+                      modal       : true,
+                      closeAction : 'destroy',
+                      layout      : 'fit',
+                      frame       : false,
+                      items       : [fp_profile]
+                    });
+    /****
+    *  Open the window
+    ****/
+    w_profile.show();
+  };
+
+  /****
+  *  Contact model
+  *  NOTE: names of elements must be the
+  *        same as database column names
+  ****/
+  Ext.define('indigo.contact_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'contact_id',         type : 'int'    }, 
+      { name : 'client_id',          type : 'string' }, 
+      { name : 'full_name',          type : 'string' }, 
+      { name : 'email_address',      type : 'string' },
+      { name : 'email_permission',   type : 'int'    },
+      { name : 'created_by',         type : 'string' },
+      { name : 'created_date',       type : 'string' },
+      { name : 'modified_by',        type : 'string' },
+      { name : 'modified_date',      type : 'string' },
+      { name : 'profile_field_01',   type : 'string' },
+      { name : 'profile_field_02',   type : 'string' },
+      { name : 'profile_field_03',   type : 'string' },
+      { name : 'profile_field_04',   type : 'string' },
+      { name : 'profile_field_05',   type : 'string' },
+      { name : 'profile_field_06',   type : 'string' },
+      { name : 'profile_field_07',   type : 'string' },
+      { name : 'profile_field_08',   type : 'string' },
+      { name : 'profile_field_09',   type : 'string' },
+      { name : 'profile_field_10',   type : 'string' },
+      { name : 'profile_field_11',   type : 'string' },
+      { name : 'profile_field_12',   type : 'string' },
+      { name : 'profile_field_13',   type : 'string' },
+      { name : 'profile_field_14',   type : 'string' },
+      { name : 'profile_field_15',   type : 'string' },
+    ]
+  });
+
+  /****
+  *  Contact store
+  ****/
+  var store = Ext.create('Ext.data.Store', {
+                model           : 'indigo.contact_model',
+                clearOnPageLoad : true,
+                autoLoad        : true,
+                pageSize        : 20,
+                proxy           : {
+                  type          : 'ajax',
+                  url           : 'fetch_contacts.php',
+                  actionMethods : {
+                    create  : 'POST',
+                    read    : 'POST',
+                    update  : 'POST',
+                    destroy : 'POST'
+                  },
+                  reader        : {
+                    id            : 'term',
+                    type          : 'json',
+                    root          : 'results',
+                    totalProperty : 'total'
+                  },
+                  extraParams     : {
+                    filter_id : p_filter_id
+                  }
+                },
+                extraParams     : {
+                  search : ''
+                }
+              });
+
+  /****
+  *  Profile label model
+  ****/
+  Ext.define('indigo.profile_label_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+//      { name : 'field_id',    type : 'int'    },
+      { name : 'field_label', type : 'string' }
+    ]
+  });
+
+  /****
+  *  Profile label store
+  *
+  *  Tried looping through the array right after load
+  *  but need a loop back as async
+  ****/
+  var s_profile_label = Ext.create('Ext.data.Store', {
+                          model           : 'indigo.profile_label_model',
+                          clearOnPageLoad : true,
+                          autoLoad        : true,
+                          pageSize        : 256,
+                          proxy           : {
+                            type          : 'ajax',
+                            url           : 'fetch_profile_labels.php',
+                            actionMethods : {
+                              create  : 'POST',
+                              read    : 'POST',
+                              update  : 'POST',
+                              destroy : 'POST'
+                           },
+                           reader         : {
+                             id            : 'term',
+                             type          : 'json',
+                             root          : 'results',
+                             totalProperty : 'total'
+                           }
+                         },
+                         extraParams      : {
+                           action : ''
+                         }
+                       });
+
+  /****
+  *  Contact search model
+  ****/
+  Ext.define('indigo.contact_search_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'field_id',    type : 'int'    },
+      { name : 'field_label', type : 'string' },
+      { name : 'view_column', type : 'string' }
+    ]
+  });
+
+  /****
+  *  Contact search store
+  ****/
+  var s_contact_search = Ext.create('Ext.data.Store', {
+                           model           : 'indigo.contact_search_model',
+                           clearOnPageLoad : true,
+                           autoLoad        : true,
+                           pageSize        : 256,
+                           proxy           : {
+                             type          : 'ajax',
+                             url           : 'fetch_contact_search.php',
+                             actionMethods : {
+                               create  : 'POST',
+                               read    : 'POST',
+                               update  : 'POST',
+                               destroy : 'POST'
+                            },
+                            reader         : {
+                              id            : 'term',
+                              type          : 'json',
+                              root          : 'results',
+                              totalProperty : 'total'
+                            }
+                          },
+                          extraParams      : {
+                            action : ''
+                          }
+                        });
+
+/*
+  if ( p_filter_id > 0 ) {
+    store.loadPage(1);
+  };
+*/
+
+  /****
+  *  Contacts grid
+  ****/
+  return Ext.define('indigo.g_contacts', {
+           extend         : 'Ext.grid.Panel',
+           id             : 'g_contacts'+p_filter_id,
+           alias          : 'widget.g_contacts',
+           title          : 'Contacts',
+           store          : store,
+           trackMouseOver : true,
+           layout         : 'fit',
+           loadMask       : true,
+           enableHdMenu   : true,
+           stripeRows     : true,
+           autoRender     : true,
+           autoShow       : true,
+           listeners      : {
+
+             /****
+             *  Not 100% sure this is the best 
+             *  way to hook in an extra parameter
+             ****/
+             itemdblclick : function ( 
+                              p_grid,
+                              p_record,
+                              p_item,
+                              p_index,
+                              p_object
+                            ) {
+
+                              f_contact (
+                                p_grid,
+                                p_record,
+                                p_item,
+                                p_index,
+                                p_object,
+                                s_profile_label
+                              )
+                             }
+
+           },
+           columns        : [ 
+             {
+               id        : 'gc_c1',
+               text      : 'Contact ID',
+               width     : 80,
+               sortable  : true,
+               dataIndex : 'contact_id' 
+             },
+             {
+               id        : 'gc_c2',
+               text      : 'Client ID',
+               width     : 80,
+               sortable  : true,
+               dataIndex : 'client_id' 
+             }, 
+             {
+               id        : 'gc_c3',
+               text      : 'Name',
+               width     : 150,
+               sortable  : true,
+               dataIndex : 'full_name'
+             }, 
+             {
+               id        : 'gc_c4',
+               text      : 'Email Address',
+               flex      : 1,
+               sortable  : true,
+               dataIndex : 'email_address'
+             }
+           ],
+           dockedItems    : [
+             {
+               xtype       : 'pagingtoolbar',
+               id          : 'pt_bottom',
+               name        : 'pt_bottom',
+               store       : store,
+               dock        : 'bottom',
+               displayInfo : true,
+               displayMsg  : 'Displaying rows {0} - {1} of {2}',
+               emptyMsg    : "No data to display",
+               pageSize    : 20
+             }, 
+             {
+               xtype       : 'toolbar',
+               id          : 't_top',
+               name        : 't_top',
+               dock        : 'top',
+               items: [ 
+                 {
+                   xtype   : 'button',
+                   text    : 'Search',
+                   icon    : 'icons/search_blue_16.png',
+                   cls     : 'x-btn-text-icon',
+                   handler : function() {
+
+                               /****
+                               *  Send the search string to the PHP code
+                               *  NOTE: this must happen after the grid has been rendered
+                               ****/
+                               store.on('beforeload', function() {
+                                 store.getProxy().extraParams.search = Ext.getCmp('search').value;
+                                 store.getProxy().extraParams.filter = Ext.getCmp('search_combo').value;
+                               });
+                               store.loadPage(1);
+                            }
+                 },
+                 {
+                   xtype     : 'textfield',  // add a listener to search when user hits enter
+                   id        : 'search',
+                   name      : 'search',
+                   emptyText : 'enter search term'
+                 }, 
+                 {
+                   xtype          : 'combobox',
+                   id             : 'search_combo',
+                   name           : 'search_combo',
+                   store          : s_contact_search,
+                   valueField     : 'view_column',
+                   displayField   : 'field_label',
+                   value          : 'field_label',
+                   typeAhead      : true,
+                   queryMode      : 'local',  // this prevents the store being loaded > once
+                   forceSelection : true
+                 },
+                 {
+                   xtype: 'tbspacer', 
+                   width : 180
+                 },
+                 {
+                   xtype   : 'button',
+                   text    : 'Filters',
+                   iconCls : 'filter',
+                   menu    : {
+                     id :'cfm',
+                     xtype: 'menu',
+                     showSeparator: false,
+                     forceLayout: true,
+                     width:  100,
+                     items: [
+                       {
+                         id    : 'cfmi1',
+                         xtype : 'menuitem',
+                         width   : 75,
+                         text    : 'Create',
+//                         handler : f_create_contact_filter
+                       },
+                       {
+                         id    : 'cfmi2',
+                         xtype : 'menuitem',
+                         width   : 75,
+                         text    : 'Select',
+  //                     handler : f_select_contact_filter
+                       }
+                     ]
+                   }
+                 }
+               ]
+             }
+           ]
+         });
+
+};

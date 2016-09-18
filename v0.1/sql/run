@@ -1,0 +1,157 @@
+#!/bin/bash
+
+#   {
+#     echo "TRUNCATE TABLE filters;"
+#     echo "TRUNCATE TABLE filter_rules;"
+#     echo "CALL p_filter_maintenance ('C','','','','','|contact_id','|=','|1');"
+
+#   {
+#     echo "set @x := 0;"
+#     echo "set @y := 0;"
+#     echo "CALL p_test(@x, @y, @z);"
+#     echo "SELECT @x, @y, @z;"
+#   } | mysql -u scott -D dev2
+
+# exit
+
+  {
+#     echo "TRUNCATE TABLE campaign_emails;"
+#     echo "TRUNCATE TABLE filters;"
+    echo "set @string := 0;"
+    echo "set @status := 0;"
+    echo "set @count := 0;"
+    echo "set @error := 0;"
+    echo "set @error_code := '0';"
+    echo "set @html  := '12e44';"
+    echo "
+CALL p_email_maintenance ('T',
+            '1',
+            'test email 001',
+            'hello',
+            '<200b><br><br><img src=\"images/earth%20001.jpg\"><br><br>Dear [sub{First Name}]',
+            'Scott',
+            'marketing@blah.com',
+            'replies@company.com',
+            'test adhoc email 001',
+            '',
+            'scott@dev1',
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count);"
+    echo "SELECT @string, @status, @count, @new_id, @error, @error_code;"
+  } | mysql -u scott -D dev2
+
+exit
+
+
+CALL p_live_send ('L',
+            '1',
+            'test live send',
+            'd1',
+            '',
+            '15/01/2012',
+            '16/01/2012',
+            '|8',
+            '7',
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count)
+
+
+CALL p_subscription_maintenance ('469eab47-3c16-11e1-b0f6-8a709186eb0b',
+                  @status,
+                  @string,
+                  @error,
+                  @error_code,
+                  @new_id,
+                  @count);"
+
+CALL p_update_details ('469d4b9d-3c16-11e1-b0f6-8a709186eb0b',
+                 '1212',
+                 '121',
+                 'sdsd',
+                 'sds',
+                 'sds',
+                 'dsds',
+                 'sds',
+                 '123',
+                 '13',
+                @status,
+                @string,
+                @error,
+                @error_code,
+                @new_id,
+                @count)
+
+
+
+
+CALL p_contact_maintenance ('U',
+            '10',
+            'nibh.dolor@molestie.orgjhjkj',
+            '1',
+            '|Mrd|Nehru|Mills|Borland|Advertising|784-4783 A Avenue|Richland|Texas||P5L 8F9|36 185 3310-0079|59 139 3030-9105|65 484 7445-0892|Asher|Y',
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count)
+
+
+
+
+
+CALL p_substitution (
+            1,
+            @html,
+            @error,
+            @error_code);"
+
+CALL p_email_maintenance ('V',
+            '1',
+            'test email 001',
+            'test subject 001',
+            'jules@fonterra.com',
+            'Dear [sub{Title}] [sub{First Name}],<br><br>Hope you are still living at [sub{Address 1}]<br><br>Regards<br>[sub{Datamine BDM}]<br>',
+            'test email 001 description',
+            '0',
+            'scott@dev1',
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count);"
+CALL p_email_maintenance ('T',
+            '1',
+            'test email 001',
+            'test subject 001',
+            'jules@fonterra.com',
+            '<div align="center"><font color="00FF00" size="7">JULES TEST EMAIL</font><font size="7"><br></font></div>',
+            'test email 001 description',
+            '0',
+            'scott@dev1',
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count)
+
+CALL p_substitution (
+            1,
+            @html,
+            @status,
+            @string,
+            @error,
+            @error_code,
+            @new_id,
+            @count);"
+    echo "SELECT @string, @status, @count, @new_id, @error, @error_code, @html;"

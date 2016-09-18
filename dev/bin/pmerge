@@ -1,0 +1,28 @@
+#!/bin/ksh
+###############################################################################
+# Name        : pmerge                                                        # 
+# Description : merges PL/SQL package bodies and specs                        #
+#                                                                             #
+#                                                                             #
+# Author      : Scott Walkinshaw                                              #
+# Date        : 16th October 2006                                            #
+#                                                                             #
+###############################################################################
+###############################################################################
+# File Modification History                                                   #
+###############################################################################
+# Inits | Date      | Vers | Description                                      #
+# SW    | 16 Oct 06 | 1.00 | Initial Issue                                    #
+###############################################################################
+[ $# -lt 1 ] && echo "usage: pmerge <package name>" && exit 1
+
+if [ -f $1.pks ]; then
+  \mv $1.pks $1.sql
+  \cat $1.pkb >> $1.sql
+  \rm $1.pkb
+  echo "pmerge: package [$1] successfully merged"
+  exit 0
+else
+  echo "pmerge: can't find [$1.pks]"
+  exit 1
+fi

@@ -1,0 +1,214 @@
+/*******************************************************************************
+* Indigo v0.2 
+********************************************************************************
+* Name          : dashboard.js
+* Description   : renders dashboard
+* Author        : Scott Walkinshaw
+* Date          : 29th December 2011
+* Parameters    : 
+* Comments      :
+
+
+   Ext.Msg.alert('Status', 'test');
+
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 29 Dec 11 | Initial issue                                     *
+*******************************************************************************/
+
+
+function f_test() {
+
+  /****
+  *  Media model
+  ****/
+  Ext.define('indigo.media_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'media_id',        type : 'int'},
+      { name : 'media_name',      type : 'string'},
+      { name : 'description',     type : 'string'},
+      { name : 'media_type_id',   type : 'string'},
+      { name : 'media_type',      type : 'string'},
+      { name : 'url',             type : 'string'},
+      { name : 'thumbnail_url',   type : 'string'},
+      { name : 'filename',        type : 'string'},
+      { name : 'mime_type',       type : 'string'},
+      { name : 'size',            type : 'string'},
+      { name : 'width',           type : 'string'},
+      { name : 'height',          type : 'string'},
+      { name : 'created_by',      type : 'string'},
+      { name : 'created_date',    type : 'string'},
+      { name : 'modified_by',     type : 'string'},
+      { name : 'modified_date',   type : 'string'}
+    ]
+  });
+
+  /****
+  *  Media store
+  ****/
+  var s_media = Ext.create('Ext.data.Store', {
+        model           : 'indigo.media_model',
+        clearOnPageLoad : true,
+        autoLoad        : true,
+        proxy           : {
+          type            : 'ajax',
+          url             : 'fetch_media.php',
+         actionMethods   : {
+            create  : 'POST',
+            read    : 'POST',
+            update  : 'POST',
+            destroy : 'POST'
+          },
+          reader           : {
+            id            : 'term',
+            type          : 'json',
+            root          : 'results',
+            totalProperty : 'total'
+          }
+        },
+        extraParams          : {
+          type : ''
+        }
+      });
+
+
+        var tpl = new Ext.XTemplate(
+            '<tpl for=".">',
+                '<div class="thumb-wrap" id="{media_id}">',
+               '<div class="thumb"><img src="{thumbnail_url}" title="{media_name}"></div>',
+//                '<div class="thumb"><img src="{thumbnail_url}" title="{media_name}" ondblclick="alert(123)"></div>',
+                '<span class="x-editable">{media_name}</span></div>',
+            '</tpl>'
+//            '<div class="x-clear"></div>'
+        );
+
+        var tplDetail = new Ext.XTemplate(
+            '<div class="details">',
+				'<tpl for=".">',
+					'<img src="{thumbnail_url}"><div class="details-info">',
+					'<b>Image Name:</b>',
+					'<span>{media_name}</span>',
+					'<b>Size:</b>',
+					'<span>{size}</span>',
+					'<b>Last Modified:</b>',
+					'<span>{modified_date}</span>',
+                    '<span><a href="{url}" target="_blank">view original</a></span></div>',
+				'</tpl>',
+			'</div>'
+        );
+
+var datav3 = Ext.create('Ext.DataView', {
+                    store: s_media,
+                    tpl: tpl,
+                    itemSelector: 'div.thumb-wrap',
+                    listeners: {
+//                        itemtap: function(dataview, index, item, e) {
+                        click: function(dataview, index, item, e) {
+  Ext.Msg.alert('Status', 'test');
+                            console.log("record: " +  dataview.getRecord(item));
+                            var record = dataview.getRecord(item);
+                            var url = record.data.link;
+  //                          console.log("item url: " +  url);
+                        }
+                    }
+                })
+
+
+var datav2 = Ext.create('Ext.view.View', {
+    store: s_media,
+    tpl: tpl,
+    itemSelector: 'div.thumb-wrap',
+    emptyText: 'No images available',
+            listeners: {
+                itemtap: {
+                    fn: function() {
+
+  Ext.Msg.alert('Status', 'test');
+
+                        var selNode = datav.getSelectedRecords();
+                        tplDetail.overwrite(panelRightBottom.body, selNode[0].data);
+                    }
+                }
+            }
+});
+
+
+
+     var datav = new Ext.DataView({
+                   autoScroll: true,
+                   store: s_media,
+                   tpl: tpl,
+                autoHeight: false, height: 400, // multiSelect: true,
+            overClass: 'x-view-over', 
+            itemSelector: 'div.thumb-wrap', // div related to the id of the panel - in this case imaged-view
+//            itemSelector: '.thumb-wrap2',
+            emptyText: 'No images to display',
+            style: 'border:1px solid #99BBE8; border-top-width: 0',
+            listeners: {
+             selectionchange: {
+                    fn: function(viewmodel, array) {
+
+                       Ext.Msg.alert('Status', 'test');
+
+//                        var selNode = viewmodel.datav.getSelectedRecords();
+                        var selNode = viewmodel.getSelection();
+  Ext.Msg.alert('Status', 'test');
+                        tplDetail.overwrite(panelRightBottom.body, selNode[0].data);
+                    }
+                }
+            }
+        })
+
+
+  var panelLeft = new Ext.Panel({
+                    id: 'images-view',  // this is the div
+                    region     : 'center',
+                    frame: true,
+                    width: 300,
+                    height: 200,
+                    autoHeight: true,
+  // layout : 'auto',
+                    title: 'Simple DataView Gallery (0 images selected)',
+                    items: [datav]
+        });
+
+  var panelRightBottom = new Ext.Panel({
+            title: 'Image Detail',
+            frame: true,
+            region     : 'east',
+ // layout : 'auto',
+            width: 150,
+            height: 255,
+            id:  'panelDetail',
+            tpl: tplDetail
+        });
+
+	var w_media_detail = Ext.create('Ext.Window', {
+                                 id          : 'w_media_detail',
+                  title       : 'Indigo Console',
+                        id          : 'console',
+                        layout      : 'border',
+                        width       : 800,
+                        height      : 600,
+                        resizable   : false,
+                        draggable   : true,
+                        modal       : true,
+				  closeAction : 'destroy',
+				  frame       : false,
+                                  items       : [panelLeft, panelRightBottom]
+			       });
+	   /****
+	   *  Open the window & add the first rule set
+	   ****/
+	   w_media_detail.show();
+
+};
+
+Ext.Loader.setPath('Ext.ux.DataView', 'plugins/DataView/');
+Ext.onReady(f_test);
+

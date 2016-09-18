@@ -1,0 +1,139 @@
+    /****
+    *  Second tab - email grid
+    ****/
+    var gp_cr_detail2 = Ext.create('Ext.grid.Panel', {
+                          xtype          : 'grid',
+                          id             : 'gp_cr_detail2',
+                          title          : 'Emails',
+                          store          : s_cr_emails,
+                          trackMouseOver : true,
+//                          layout         : 'fit',
+                          loadMask       : true,
+                          enableHdMenu   : true,
+                          stripeRows     : true,
+//                          autoRender     : true,  // do not autorender if grid is in another component
+                          autoShow       : true,
+/*
+                          listeners      : {
+                            itemdblclick : function() {
+                                             f_contacts();  // pass in the store like we do for filseg!!! store will have to be superset of contacts store union v_cr_emails
+                                           }
+                          },
+*/
+                          columns        : [
+                            {
+                              id        : 'cr_c1',
+                              text      : 'Contact ID',
+                              width     : 80,
+                              sortable  : true,
+                              dataIndex : 'contact_id',
+                            }, 
+                            {
+                              id        : 'cr_c2',
+                              text      : 'Name',
+                              width     : 100,
+                              sortable  : true,
+                              dataIndex : 'full_name'
+                            }, 
+                            {
+                              id        : 'cr_c3',
+                              text      : 'Email Address',
+                              width     : 100,
+                              sortable  : true,
+                              dataIndex : 'email_address'
+                            }, 
+                            {
+                              id        : 'cr_c4',
+                              text      : 'Status',
+                              width     : 75,
+                              sortable  : true,
+                              dataIndex : 'email_status'
+                            }, 
+                            {
+                              id        : 'cr_c5',
+                              text      : 'Status Time',
+                              flex      : 1,
+                              sortable  : true,
+                              dataIndex : 'status_datetime'
+                            }, 
+                            {
+                               xtype : 'actioncolumn',
+                               width : 20,
+                              items : [
+                                {
+                                  icon    : 'icons/mail_orange_16.png',
+                                  tooltip : 'View email',
+                                  handler: function(grid, rowIndex, colIndex) {
+                                    var v_record = grid.getStore().getAt(rowIndex);
+
+                                    v_contact_id = v_record.get('contact_id');
+                                    v_ce_id      = v_record.get('campaign_email_id');
+
+                                      f_cr_view_email (
+                                        v_contact_id,
+                                        v_ce_id
+                                      )
+                                  }
+                                }
+                              ]
+/*
+                              width     : 20,
+                                  cls      : 'x-btn-text-icon',
+*/
+                            }
+                          ],
+                          dockedItems    : [
+                            {
+                              xtype       : 'pagingtoolbar',
+                              id          : 'cre_bottom',
+                              store       : s_cr_emails,
+                              dock        : 'bottom',
+                              displayInfo : true,
+                              displayMsg  : 'Displaying rows {0} - {1} of {2}',
+                              emptyMsg    : "No data to display",
+                              pageSize    : 25
+                            },
+                            {
+                              xtype       : 'toolbar',
+                              id          : 'cre_top',
+                              dock        : 'top',
+                              items: [
+                                {
+                                  xtype    : 'button',
+                                  text     : 'Status',
+                                  icon     : 'icons/info2_blue_16.png',
+                                  cls      : 'x-btn-text-icon',
+                                  menu     : {
+                                    defaults : {
+                                      checked : false,
+                                      group   : 'email_status'  // radio buttons
+                                    },
+                                    items : [
+                                      {
+                                        text         : 'All',
+                                        checked      : true,
+                                        checkHandler : f_cr_email_status
+                                      },
+                                      {
+                                        text         : 'Sent',
+                                        checkHandler : f_cr_email_status
+                                      },
+                                      {
+                                        text         : 'Bounced',
+                                        checkHandler : f_cr_email_status
+                                      },
+                                      {
+                                        text         : 'Accepted',
+                                        checkHandler : f_cr_email_status
+                                      },
+                                      {
+                                        text         : 'Rendered',
+                                        checkHandler : f_cr_email_status
+                                      },
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        });

@@ -1,0 +1,2252 @@
+#signin, #signup, #spam-test {
+	background: none;
+}
+
+#signin input {
+	width: 140px;
+}
+
+#signup p {
+	font-size: 1.2em;
+	margin-top: 25px;
+}
+
+#signup p input {
+	border: none;
+}
+
+#signup select {
+	margin-top: 0;
+}
+
+#signin .compart-container2 {
+	font-size: 1.2em;
+}
+
+#signup .compart-container2 {
+	font-size: 1em;
+}
+
+#signin h1 {
+	font-size: 1.5em;
+	margin: 0 0 25px 0;
+}
+
+#signin #forget {
+	float: left; 
+	margin: 3px 0 0 10px; 
+	font-size: 0.85em;
+}
+
+#signin p.p1 {
+	border-top: 1px solid #E1E1E1; 
+	width: 55%; 
+	padding: 7px 0 0 5px; 
+	margin-top: 30px; 
+	font-size: 1em;
+}
+
+#edit-acnt h1, #admin-acnt h1, #summary h1, #stats h1 {
+	width: 100%;
+	float: left;
+	margin-top: 25px;
+}
+
+#list-import #camp h1, #subscribe #camp h1 {
+	font-size: 1.5em;
+	margin-bottom: 10px;
+}
+
+#ongoing #camp h1 {
+	font-size: 1.5em; 
+	display: inline; 
+	margin-left: 2px;
+}
+
+#ongoing #camp h1 span {
+	font-size: 0.7em; 
+	color: #666;
+}
+
+.compart-container {
+	background: none;
+}
+
+.compart-container a {
+	color: #E86319;
+}
+
+.compart-container a:hover {
+	color: #C64700;
+}
+
+.compart-container2 {
+	width: 100%;
+	float: left;
+	background: url(../i/bg.gif) repeat-x left top;
+	padding: 18px 0;
+	font-size: 1.2em;
+}
+
+.compart {
+	width: 770px;
+	margin: 0 auto;
+}
+
+#tabs {
+	float: left;
+	font: 1em Verdana, Arial, Helvetica, sans-serif;
+	clear: both;
+	margin: 8px 0 0 0;
+	padding: 0;
+	list-style: none;
+}
+
+#tabs li {
+	display: inline;
+}
+
+#tabs h1 {
+	margin: 0 2px 0 0;
+	background: url(../i/blast-nav-bg.gif) repeat-x;
+	float: left;
+	width: auto;
+	font-size: 1em;
+}
+
+#tabs .selected h1 {
+	background: url(../i/blast-nav-s-bg.gif) repeat-x;
+	margin-top: 0;
+}
+
+#tabs .selected a {
+	background: url("../i/blast-nav-s-l.gif") no-repeat left top;
+	font-size: 1.1em;
+	font-weight: bold;
+}
+
+#tabs .selected a span {
+	background: url("../i/blast-nav-s-r.gif") no-repeat right top;
+}
+
+#tabs a {
+	float: left;
+	background: url("../i/blast-nav-l.gif") no-repeat left top;
+	color: #696969;
+}
+
+#tabs a:hover {
+	color: #333;
+}
+
+#tabs .selected a:hover {
+	color: #6B6B6B;
+}
+
+#tabs a span {
+	float: left;
+	display: block;
+	background: url("../i/blast-nav-r.gif") no-repeat right top;
+	padding: 3px 15px;
+}
+
+/* Commented Backslash Hack hides rule from IE5-Mac \*/
+#tabs a span {float:none;}
+/* End IE5-Mac hack */
+
+#camp {
+	float: left;
+	clear: both;
+	width: 100%;
+	margin: 25px 0 0 0;
+}
+
+#camp a.new_c {
+	display: block;
+	margin-bottom: 20px;
+}
+
+#cnt-ctr #test-l h3, #cnt-ctr #test-r h3 {
+	padding: 0 0 10px 0;
+	font-size: 1.15em;
+}
+
+#cnt-ctr #test-l p {
+	margin-bottom: 5px;
+}
+
+#test-l #fields {
+	margin: 0;
+	padding: 10px 0 0 15px;
+	font-size: 13px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#test-l #fields input {
+	float: left; 
+	margin-right: 5px;
+}
+			
+#subcomp, #subcomp2, #stats #subcomp {
+	float: left;
+	clear: both;
+	font: 0.9em Verdana, Arial, Helvetica, sans-serif;
+	padding: 4px 0 0 15px;
+}
+
+#subcomp2 {
+	padding-left: 115px;
+}
+
+#ongoing h5 {
+	margin: 0;
+	padding: 5px 0 0 5px;
+	clear: both; 
+	width: 600px;
+}
+
+ul.fields  {
+	margin: 0 20px 0 0;
+	padding: 0;
+	float: left;
+	list-style: none;
+}
+
+ul#fields {
+	margin: 0 0 0 10px;
+	list-style: none;
+	padding: 0;
+}
+
+ul.fields input, ul#fields input, ul.fields2 span input {
+	border: none;
+}
+
+ul.fields2 span input {
+	margin-left: 5px;
+}
+
+ul.fields li, ul#fields li  {
+	padding: 4px 0;
+}
+
+ul.fields2  {
+	margin: 0;
+	padding: 0;
+}
+
+.fields2 li {
+	list-style-type: none;
+	padding-bottom: 5px;
+}
+
+#msg h6 {
+	font-size: 1em;
+	float: left;
+	font-weight: normal;
+	margin: 0 5px 5px 0;
+	width: 270px;
+	text-align: right;
+	padding-top: 2px;
+}
+
+#msg span {
+	display: block;
+	margin: 0 0 5px 0;
+	font: 0.7em Verdana, Arial, Helvetica, sans-serif;
+	color: #999;
+}
+
+#msg p.p2 {
+	padding-top: 15px;
+	font-size: 1em;
+}
+
+#msg p.p2 strong {
+	display: block;
+	padding-bottom: 10px;
+}
+
+#msg #from {
+	float: left;
+	margin: 0;
+	padding: 0;
+	width: 750px;
+	border: solid 1px #ddd;
+}
+
+#msg #from legend {
+	margin: 0 10px;
+}
+
+#msg #from label {
+	width: 130px;
+}
+
+#msg #from h5 {
+	margin: 0 0 15px 10px;
+	float: left;
+}
+
+#msg h3 {
+	font-size: 1.15em;
+}
+
+#msg #html-ed {
+	margin-top: 30px;
+	float: left;
+}
+
+#msg #html-ed strong {
+	font-size: 1.15em;
+	padding-right: 5px;
+	color: #848484;
+}
+
+#msg #html-ed input {
+	width: 275px;
+}
+
+#msg textarea {
+	width: 750px;
+	height: 200px;
+}
+
+.fld-ctr {
+	margin: 10px;
+}
+
+#camp #editor {
+	float: left;
+}
+
+#msg .pers {
+	margin: 10px 0;
+}
+
+#msg .pers select {
+	width: 200px;
+}
+
+#cnt-ctr {
+	float: left;
+	width: 100%;
+}
+
+#cnt-ctr ul.preview  {
+	padding: 0 0 0 20px;
+	list-style: square;
+	color: #FF9950;
+	margin-bottom: 25px;
+	margin-left: 0;
+	font-size: 1em;
+}
+
+#cnt-ctr ul.preview li {
+	padding-bottom: 5px;
+}
+
+#shipping select {
+	margin-left: 6px;
+}
+
+#shipping h5 {
+	display: inline;
+}
+
+#shipping h3 {	
+	margin: 0 0 15px 0;
+	padding: 0;
+}
+
+#shipping #fields {	
+	margin: 20px 0;
+}
+
+#shipping td, #shipping th {
+	border: none;
+}
+
+#account2 {
+	font-size: 1.2em;
+}
+
+#camp-summ h6, #account2 h6, #double #double-summ h6 {
+	font-size: 1em;
+	float: left;
+	width: 105px;
+	text-align: right;
+	margin: 0 10px 5px 0;
+	color: #939393;
+}
+
+#double #double-summ h6 {
+	font-weight: bold;
+}
+
+#account2 h3 {
+	font-size: 1.05em;
+}
+
+#account h3 {
+	font-size: 1.3em;
+}
+
+#account2 h6 {
+	width: 45px;
+}
+
+#camp-summ span, #account2 span, #double-summ span {
+	display: block;
+	margin: 0 0 5px 0;
+	padding-bottom: 2px;
+	border-bottom: 1px dashed #999;
+	font-size: 1em;
+}
+
+#camp-summ span a {
+	padding-left: 5px;
+}
+
+#shipping td {
+	padding: 2px 0;
+	font-size: 12px;
+	background: none;
+	color:#999;
+}
+
+#shipping th {
+	background: none;
+	padding: 12px 30px 0 10px;
+	font-size: 14px;
+}
+
+#shipping .when-ctr {
+	width: 768px;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#shipping table {
+	clear: both;
+	margin-top: 10px;
+}
+
+#shipping table select {
+	width: auto;
+	padding: 0 0 0 2px;
+}
+
+#shipping h3 {
+	font-size: 1.15em;
+}
+
+#camp-summ, #account, #mng-users-l {
+	float: left;
+	width: 60%;
+}
+
+#camp-summ table {
+	width: 390px;
+}
+
+#mng-users-l2 {
+	margin-top: 20px;
+}
+
+#mng-users-l2 p {
+	font-size: 1.2em; 
+	margin-top: 25px;
+	margin-bottom:10px;
+}
+
+#mng-users-l2 thead th {
+	background: none;
+	border: none;
+}
+
+#mng-users-l2 thead td {
+	border: none;
+}
+
+#mng-users-l2 td a {
+	color: #fff;
+	text-decoration: underline;
+}
+
+#mng-users-l2 td a:hover {
+	text-decoration: none;
+}
+
+#mng-users-l2 ul {
+	margin: 15px 0 0 35px;
+	padding: 0;
+}
+
+#mng-users-l2 li {
+	list-style-image: url(../i/check-o.gif);
+	font-size: 1em;
+	padding: 3px 0;
+}
+
+#mng-users-l2 input {
+	cursor: pointer;
+}
+
+#mng-users-l2 table input {
+	border: none;
+	cursor: auto;
+}
+
+#camp-summ2, #account2, #mng-users-r, #test-r {
+	float: right;
+}
+
+#test-l {
+	float: left;
+	margin-bottom: 30px;
+}
+
+#test-l td, #test-l th  {
+	font-size: 14px;
+}
+
+#mng-users-l h3, #mng-users-r h3 {
+	font-size: 1.4em;
+	padding-top: 20px;
+}
+
+#summary h3 {
+	font-size: 1.35em;
+	padding: 30px 0 10px 0;
+}
+
+#summary h2, #total-list h2 {
+	font-size: 13px; 
+	font-weight: bold; 
+	margin: 0; 
+	padding: 5px 0 5px 0; 
+	color: #7B7B7B;
+}
+
+#recipients h2, #conf-test h2 {
+	font-size: 16px; 
+	color: #f60; 
+	margin-bottom: 15px; 
+	font-weight: bold;
+}
+
+#recipients h3 {
+	margin-bottom: 20px;
+}
+
+#total-list .pages {
+	float: left; 
+	margin: 20px 0 0 0;
+	font-size: 14px;
+	word-spacing: 3px;
+}
+
+#total-list #camp .pages a {
+	font-size: 13px;
+}
+
+#total-list #camp .pages a:hover {
+	text-decoration: underline;
+}
+
+.preview a {
+	color: #E86319;
+}
+
+.preview a:hover {
+	color: #C64700;
+}
+
+#cnt-ctr #camp-summ2 .preview {
+	margin: 0;
+}
+
+#camp-summ img.gr {
+	margin-top: 20px;
+}
+
+#cnt-ctr #camp-summ2 p {
+	margin-top: 10px;
+	font-size: 1.2em;
+}
+
+#camp-summ h6 {
+	width: 21.33em;
+	font-size: 1em;
+	text-align: left;
+	border-bottom: 1px dashed #999;
+	margin-bottom: 6px;
+	padding-bottom: 2px;
+}
+
+#camp-summ span {
+	padding-bottom: 4px;
+	margin-top: 5px;
+	border: 0;
+}
+
+#camp-summ #name-email h5 {
+	font-size: 0.9em;
+	margin: 10px 0 0 5px;
+}	
+
+#summary table {
+	clear: both;
+	width: 100%;
+}
+
+#summary td, #summary th {
+	text-align: left;
+	border-bottom: 1px dashed #ccc;
+}
+
+#summary th {
+	width: auto;
+	font-weight: normal;
+	border-right: 1px solid #ccc;
+}
+
+#summary td {
+	border-left: 1px solid #ccc;
+}
+
+#summary tr.bott td, #summary tr.bott th {
+	border: 0;
+	padding: 0;
+	background: url(../i/camp-bg2.gif) repeat-x bottom;
+	height: 25px;
+}
+
+#summary tr.bott th span, #summary tr.bott td span {
+	display: block;
+	height: 25px;
+	margin: 0;
+}
+
+#summary tr.bott td span {
+	background: url(../i/corn-bot-l.gif) no-repeat left bottom;
+}
+
+#summary tr.bott th span {
+	background: url(../i/corn-bot-r.gif) no-repeat right bottom;
+}
+
+
+#name-email table {
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#summary #name-email th {
+	padding-left: 10px;
+	font-weight: bold;
+}
+
+#summary #name-email th, #summary #name-email td {
+	border-left: 0;
+	border-right: 0;
+}
+
+#name-email th {
+	font-weight: bold;
+	width: 8em;
+}
+
+#name-email .sub td {
+	border-bottom: 0;
+	padding-top: 7px;
+}
+
+#name-email .butt-save2-o {
+	position: relative;
+	left: 110px;
+}
+
+#camp-summ2 p {
+	margin: 0 0 5px 0;
+}
+
+#summary #camp-summ2 a {
+	font-size: 1.2em;
+}
+
+#summary-act #bott-nav, #add-member #bott-nav, #users #bott-nav, #groups  #bott-nav {
+	font-size: 1em;
+}
+
+#summary-act #camp h1 {
+	margin: 0 0 20px 0;
+}
+
+#erase #camp p, #erase #camp a, #remove #camp p, #remove #camp a, #rename #camp p, #rename #camp a,
+#total-list #camp p, #total-list #camp a {
+	font-size: 1.2em;
+}
+
+#remove #camp p {
+	margin-top: 20px;
+}
+
+#account h6 {
+	font-size: 1.2em;
+	float: left;
+	font-weight: normal;
+	margin: 0 0 5px 0;
+	width: 156px;
+	text-align: right;
+}
+
+#account span {
+	display: block;
+	margin: 0 0 3px 0;
+}
+
+#steps {
+	width: 770px;
+	padding: 0;
+	margin: 10px 0 0 0;
+	font-size: 1.25em;
+}
+
+#steps li {
+	list-style: none;
+	padding: 0 20px 0 0;
+	float: left;
+}
+
+#steps li span {
+	display: block;
+	float: left;
+	font: bold 10px Verdana, Arial, Helvetica, sans-serif;
+	color: #fff;
+	height: 15px;
+	width: 15px;
+	background: url(../i/step.gif) no-repeat;
+	padding: 1px 0 0 4px;
+	margin-right: 3px;
+}
+
+#steps li.selected {
+	font-weight: bold;
+}
+
+#steps li.selected span {
+	background: url(../i/step-s.gif) no-repeat;
+}
+
+#bott-nav {
+	clear: both;
+	margin-top: 30px;
+	padding-top: 10px;
+	border-top: 1px solid #ccc;
+	width: 100%;
+	font-size: 0.8em;
+}
+
+#bott-nav img {
+	cursor: pointer;
+	float: left;
+}
+
+#user-types #camp {
+	font-size: 1.2em;
+}
+
+#user-types #camp h1 {
+	font-size: 1.5em;
+}
+
+#user-types #camp h3 {
+	font-size: 1.2em;
+	padding-top: 15px;
+}
+
+#user-types #camp ul {
+	list-style-type: none;
+	margin: 10px 0 20px 0;
+	padding: 0;
+}
+
+#user-types #camp p {
+	font-size: 0.8em;
+}
+
+#create-cmp {
+	margin-bottom: 20px;
+	font-size: 1.2em;
+	color:#999;
+	font-weight: bold;
+}
+
+#create-cmp input, .create-mlng input, #create-mlng input, #lists input {
+	color: #BEBEBE;
+}
+
+.create-mlng {
+	float: left; 
+	margin-bottom: 20px;
+	padding-left: 17px;
+	font-size: 1.2em;
+}
+
+.camp-cnt {
+	margin: 10px 0 10px 17px;
+}
+
+.camp-cnt td, .camp-cnt th, #spam-test th, #spam-test td {
+	padding: 5px 10px;
+	font-size: 1.2em;
+	text-align: left;
+	border-bottom: 1px solid #E3E3E3;
+}
+
+.camp-cnt td {
+	background-color: #F7F7F7;
+}
+
+.camp-cnt th, #spam-test td {
+	color:#999692;
+	font-size: 1.1em;
+	background-color: #fff;
+	font-weight: bold;
+}
+
+.camp-cnt a {
+	font-size: 0.9em;
+}
+
+/* Home page: Campaign container / Start*/
+.top-pr {
+	float: left; 
+	width: 770px;
+	border-bottom: 1px solid #E5E5E5; 
+	background: url(../i/corn-up-r.gif) no-repeat right top; 
+	padding: 0; 
+}
+
+#summary .top-pr, #conf-test .top-pr {
+	width: 462px;
+	margin-top: 30px;
+	padding: 0; 
+	background: url(../i/corn-up-l.gif) no-repeat left top; 
+}
+
+#conf-test .top-pr {
+	margin-top: 0px;
+}
+
+#ongoing #camp h1, #lists #camp h1, #summary .top-pr h1, #conf-test .top-pr h1, #shipping .top-pr h1 {
+	float: left;
+	font-size: 1.25em; 
+	color: #f60; 
+	font-weight: bold; 
+	background: url(../i/corn-up-l.gif) no-repeat left top; 
+	margin-left: 0; 
+	padding-left: 8px;
+	padding-bottom: 3px;
+}
+
+#shipping .top-pr h1 {
+	color: #848484;
+	font-size: 1.1em;
+}
+
+#summary .top-pr h1, #conf-test .top-pr h1 {
+	margin: 0;
+	font-weight: bold;
+	font-size: 16px;
+	padding: 8px 0 2px 10px;
+	width: 452px;
+	background: url(../i/corn-up-r.gif) no-repeat right top; 
+}
+
+#conf-test .top-pr h1 {
+	color: #848484;
+}
+
+.top-pr span {
+	font-size: 0.9em; 
+	color: #999;
+	padding-left: 7px;
+}
+
+#ongoing #camp .top-pr span.cmp-name {
+	font-size: 1em; 
+	padding: 0; 
+	color: #ED5F00;
+}
+
+#ongoing #camp .top-pr h1 span a {
+	font-size: 11px; 
+	color: #2F70B4; 
+	font-weight: normal;
+	margin-left: 3px;
+}
+
+.top-pr h1 p {
+	width: 752px; 
+	margin: 0; 
+	padding: 8px 0 0 2px; 
+	background: url(../i/camp-bg.gif) repeat-x top; 
+}
+
+.top-pr h1 p input {
+	float: left;
+	margin-bottom: 3px;
+}
+
+.top-pr h1 span a:hover {
+	color:#115092;
+	text-decoration: underline;
+}
+
+#stats .top-pr h3 {
+	float: left;
+	background: url(../i/corn-up-l.gif) no-repeat left top; 
+	padding: 0 0 5px 8px;
+}
+
+.top-pr h3 p {
+	width: 752px; 
+	margin: 0; 
+	padding: 8px 0 0 2px; 
+	background: url(../i/camp-bg.gif) repeat-x top; 
+}
+
+.bot-pr {
+	background: url(../i/corn-bot-l.gif) no-repeat left bottom; 
+	height: 41px; 
+	padding: 0 0 0 8px; 
+	margin-bottom: 30px;
+}
+
+.bot-pr p {
+	background: url(../i/corn-bot-r.gif) no-repeat right bottom; 
+	width: 762px; 
+	height: 41px;
+}
+
+.bot-pr p span {
+	background: url(../i/camp-bg2.gif) repeat-x; 
+	display: block; 
+	width: 751px; 
+	height: 31px; 
+	padding: 10px 0 0 3px;
+}
+
+#summary .bot-pr, #conf-test .bot-pr {
+	height: auto;
+	margin-bottom: 0;
+}
+
+#summary .bot-pr p, #conf-test .bot-pr p {
+	width: 100%;
+	height: auto;
+	background-position: right bottom;
+	font-size: 11px;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	color: #999;
+}
+
+#conf-test .bot-pr p {
+	width: 454px;
+}
+
+#summary .bot-pr p span, #conf-test .bot-pr p span {
+	width: 444px;
+	height: auto;
+	background-position: bottom;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	margin: 0;
+}
+
+#segmentation th {
+	width: 15px;
+}
+
+#segmentation td {
+	font-weight: bold;
+	color: #848484;
+	padding-left: 10px;
+}
+
+#segmentation .bot-pr {
+	height: 45px;
+}
+
+#segmentation .bot-pr p {
+	height: 45px;
+}
+
+#segmentation .bot-pr p span {
+	height: 30px;
+	padding: 15px 0 0 2px;
+}
+
+.bot-pr input {
+	color: #BEBEBE;
+}
+
+#ongoing input {
+	background-color: #fff;
+}
+
+#ongoing table, #lists table {
+	clear: both;
+	width: 770px;
+	border-left: 1px solid #d4d4d4;
+	border-right: 1px solid #d4d4d4; 
+	margin: 0;
+}
+
+#lists table.archived {
+	font-size: 1.2em;
+	margin-top: 30px;
+}
+
+#ongoing table tr:hover  {
+	background-color: #F9F9F9;
+}
+
+#ongoing table td {
+	text-align: right;
+	font-size: 11px;
+	color: #B1B1B1;
+}
+
+#lists table, #recipients table {
+	border: 0;
+	clear: both;
+	width: 100%;
+}
+
+#recipients table {
+	margin-top: 10px;
+}
+
+#lists table td.sublist, #recipients table td.sublist {
+	padding: 0 0 5px 0;
+	background-color: #FBFBFB;
+}
+
+#lists table td.sublist table, #recipients table td.sublist table {
+	width: 100%;
+	margin: 0;
+}
+
+#lists table td.sublist table td, #lists table td.sublist table th,
+#recipients table td.sublist table td, #recipients table td.sublist table th {
+	border-bottom: 1px dashed #E1E1E1;
+}
+
+#lists table td.sublist table th, #recipients table td.sublist table th {
+	width: 390px;
+	padding-left: 20px;
+	font-size: 13px;
+}
+
+#lists table td.sublist table th a, #recipients table td.sublist table th a {
+	color: #959595;
+}
+
+#lists table td.sublist table th a:hover, #recipients table td.sublist table th a:hover {
+	color: #ED5F00;
+}
+
+#lists table td.sublist table tr.last td, #lists table td.sublist table tr.last th,
+#recipients table td.sublist table tr.last td, #recipients table td.sublist table tr.last th {
+	border: 0;
+}
+
+#lists table td, #recipients table td {
+	font-size: 11px;
+	color: #999;
+	text-align: right;
+}
+
+#lists table td.date, #recipients table td.date {
+	text-align: left;
+}
+
+#ongoing table th, #lists table th, #recipients table th {
+	color:#999692;
+	font-size: 0.9em;
+	font-weight: bold;
+	width: 400px;
+}
+
+#ongoing table th {
+	font-size: 1.1em;
+}
+
+#lists table th, #recipients table th  {
+	width: 400px;
+}
+
+#lists th input {
+	float: left;
+	margin-right: 5px;
+	color: #858585;
+	font-size: 13px;
+	font-weight: bold;
+	height: 17px;
+}
+
+#ongoing table td, #ongoing table th, #lists table td, #lists table th, #recipients table td, #recipients table th {
+	padding: 4px 10px;
+	border-bottom: 1px dashed #ccc;
+}
+
+#lists table td, #lists table th, #recipients table td, #recipients table th {
+	border-bottom: 1px solid #E4E4E4;
+}
+
+#ongoing table tr.first td, #ongoing table tr.first th {
+	padding-top: 10px;
+}
+
+#ongoing table .stat {
+	font-size: 1em;
+	color: #999;
+	text-align: left;
+	width: 90px;
+}
+
+#ongoing table td a, #lists table td a, #recipients table td a {
+	font-size: 0.9em;
+}
+
+#lists table th a, #recipients table th a  {
+	color: #ED5F00; 
+}
+
+#ongoing table th a {
+	color: #878787;
+}
+
+#ongoing table th span a, #lists table th span a {
+	font-size: 0.85em; 
+	color: #2F70B4; 
+	font-weight: normal;
+	margin-left: 3px;
+}
+
+#ongoing table th span a:hover, #lists table th span a:hover {
+	color: #115092;
+	text-decoration: underline;
+}
+
+#ongoing table input {
+	font-weight: bold;
+	color: #999692;
+	margin: 0;
+	float: left;
+	padding: 1px 0 0 5px;
+}
+
+#ongoing table img {
+	margin-left: 3px;
+}
+
+#ongoing table .stat img {
+	margin-left: 0;
+}
+/* Home page: Campaign container / End*/
+
+#spam-test th {
+	font-size: 1em;
+}
+
+#spam-test td {
+	font-size: 0.9em;
+	background-color: #F7F7F7;
+}
+
+#stats #cnt-ctr h1 {
+	margin-bottom: 10px;
+}
+
+#stats #cnt-ctr h2, #stats-op-time #camp h2, #stats-link-act #camp h2 {
+	padding-top: 0;
+	font-size: 1.4em;
+	color: #FF8C40;
+	font-weight: bold;
+}
+
+#stats #cnt-ctr h2 {
+	padding-top: 15px;
+	margin-bottom: 10px;
+}
+
+#stats #cnt-ctr h3 {
+	padding-top: 30px;
+	padding-bottom: 10px;
+	font-size: 1.3em;
+}
+
+#stats-camp #subcomp {
+	margin-left: 110px;
+}
+
+#stats-l {
+	float: left;
+	width: 55%;
+}
+
+#stats-r {
+	float: right;
+	width: 40%;
+}
+
+#stats-r ul {
+	margin: 0;
+	list-style-type: none;
+	color: #f60;
+	padding-left: 0;
+	font-size: 1.2em;
+}
+
+#stats-r ul li {
+	padding-bottom: 20px;
+}
+
+#stats-r ul a {
+	font-weight: bold;
+	font-size: 1em;
+	color: #FF8C40;
+}
+
+#stats-r ul a:hover {
+	color: #f60;
+	text-decoration: underline;
+}
+
+#stats-r ul p {
+	color: #6B6B6B;
+	margin-top: 5px;
+}
+
+#stats-l img {
+	margin: 5px 0 0 0; 
+}
+
+#stats-op-time .compart-container2, #stats-link-act .compart-container2 {
+	padding: 0;
+}
+
+ul#stats-nav {
+	float: left; 
+	width: 100%; 
+	font-size: 1.1em; 
+	margin: 15px 0 0 0;
+	padding: 0;
+	font-weight: bold;
+	list-style-type: none;
+}
+
+ul#stats-nav li {
+	display: inline;
+	border-right: 1px solid #ccc;
+	padding-right: 7px;
+	margin-right: 7px;
+}
+
+ul#stats-nav li.last {
+	border: none;
+}
+
+ul#stats-nav a {
+	font-weight: normal;
+}
+
+ul#stats-nav a:hover {
+	text-decoration: underline;
+}
+
+#stats-op-time #camp p, #stats-link-act #camp p {
+	font-size: 1.1em;
+	margin-bottom: 20px;
+}
+
+#stats-op-time #camp p.stats-img {
+	margin: 15px 0 0 10px;
+}
+
+#stats-op-time #camp h2, #stats-link-act #camp h2 {
+	font-size: 1.1em;
+}
+
+#stats-op-time #camp h3, #stats-link-act #camp h3 {
+	padding: 0 0 5px 10px;
+	background: url(../i/bg-stats-opens.gif) repeat-x bottom;
+	font-size: 1em;
+}
+
+#stats-op-time table, #unsubscribe table {
+	margin: 30px 0 20px 50px;
+	width: 510px;
+	font-size: 0.8em;
+}
+
+#stats-link-act table {
+	margin: 30px 0 0 0;
+	font-size: 0.8em;
+}
+
+#total-list table, #summary-act table {
+	font-size: 1.1em;
+}
+
+#list-import table, #conf-test table {
+	font-size: 0.95em;	
+}
+
+#conf-test table {
+	width: 462px;
+	clear: both;
+	border-left: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+
+#conf-test #test-l thead td, #conf-test #test-l thead th, 
+#stats-op-time tbody td, #stats-op-time tbody th, #admin-acnt tbody td, #admin-acnt tbody th {
+	padding: 6px 5px 3px 5px;
+}
+
+#list-import tbody td, #list-import tbody th {
+	padding: 8px 5px 6px 5px;
+}
+
+#total-list tbody td, #total-list tbody th {
+	padding: 6px 10px 3px 10px;
+}
+
+#conf-test #test-l thead td {
+	width: 20px;
+}
+
+#conf-test #test-l thead th {
+	width: 360px;
+}
+
+#conf-test #test-l thead td, #conf-test #test-l thead th {
+	background: none;
+	color: #666;
+	font-weight: normal;
+	border-bottom: 1px solid #ccc;
+}
+
+#conf-test #test-l thead td input {
+	border: none;
+}
+
+#conf-test #test-l tbody td {
+	padding-top: 10px;
+	text-align: left;
+	border: none;
+}
+
+#recipients table input {
+	border: 0;
+	background: 0;
+}
+
+#list-import table {
+	margin-top: 20px;
+}
+
+#update-list table {
+	margin: 20px 0;
+}
+
+#update-list thead td {
+	height: 30px;
+	text-align: left;
+}
+
+#update-list thead td select {
+	font-size: 12px;
+}
+
+#update-list tbody td {
+	text-align: left;
+}
+
+#update-list h5 {
+	font-size: 0.9em;
+}
+
+#update-list h5 p {
+	margin-bottom: 10px;
+}
+
+#admin-acnt tfoot th, #admin-acnt tfoot td {
+	padding-top: 5px;
+}
+
+#stats-op-time thead {
+	font-size: 1.1em;
+} 
+
+#stats-op-time tfoot th {
+	padding: 10px 0 0 5px;
+} 
+
+#stats-op-time tfoot td {
+	padding-top: 10px;
+} 
+
+#stats-op-time tbody th {
+	padding-left: 10px;
+} 
+
+#groups table {
+	margin-bottom: 20px;
+}
+
+#groups table td {
+	vertical-align: top;
+	padding: 10px 15px;
+}
+
+#groups table td.imp {
+	background-color: #f5f5f5;
+}
+
+#groups table input {
+	margin-left: 5px;
+}
+
+#groups #camp p {
+	font-size: 1.2em;
+	margin: 20px 0 10px 0;
+}
+
+/* Tree */
+	/* Turn off list bullets */
+	ul.mktree  li { list-style: none; clear: both; width: 700px; } 
+	/* Control how "spaced out" the tree is */
+	ul.mktree, ul.mktree ul , ul.mktree li { margin-left:0px; padding:0px; }
+	/* Provide space for our own "bullet" inside the LI */
+	ul.mktree  li .bullet { padding-left: 15px; padding-top: 4px; }
+	/* Show "bullets" in the links, depending on the class of the LI that the link's in */
+	ul.mktree  li.liOpen .bullet { cursor: pointer; background: url(../i/minus2.gif) center left no-repeat; }
+	ul.mktree  li.liClosed .bullet { cursor: pointer; background: url(../i/plus2.gif) center left no-repeat; }
+	ul.mktree  li.liBullet .bullet { display: none; }
+	/* Sublists are visible or not based on class of parent LI */
+	ul.mktree  li.liOpen ul { display: block; }
+	ul.mktree  li.liClosed ul { display: none; }
+/* Tree End */
+
+ul.mktree li span a {
+	color: #369;
+}
+
+ul.mktree li h1 span {
+	padding-left: 5px;
+}
+
+.left {
+	float: left;
+}
+
+form {
+	display: block;
+}
+
+#list-import #camp, #subscribe #camp {
+	font-size: 1.2em;
+}
+
+#list-import #camp h5 {
+	font-size: 0.7em;
+}
+
+#list-import #camp p.p1 {
+	clear: both;
+}
+
+#list-import #camp p, #subscribe #camp p {
+	margin: 20px 0 5px 0;
+}
+
+#list-import #camp input.in1 {
+	width: 40px;
+}
+
+#subscribe #camp input.in2 {
+	width: 700px;
+	font-size: 0.8em;
+	padding: 3px 0 3px 5px;
+}
+
+#list-import #camp span a {
+	padding-left: 7px;
+	text-decoration: underline;
+}
+
+#spam-test h1 {
+	font-size: 1.5em;
+	margin-bottom: 20px;
+}
+
+#spam-test h5 {
+	font-size: 0.75em;
+	margin-top: 5px;
+}
+
+#spam-test h3 {
+	padding-top: 20px;
+	font-size: 1.2em;
+}
+
+#double-summ {
+	float: left;
+	width: 100%;
+	margin-top: 15px;
+	font-size: 1.1em;
+}
+
+#double h3 {
+	font-size: 1.15em;
+}
+
+#double-summ p input {
+	width: auto;
+	border: none;
+}
+
+#double-summ p {
+	margin: 0 0 20px 0;
+	font-size: 1.05em;
+}
+
+#double-summ input {
+	width: 350px;
+}
+
+#double h6 {
+	font-size: 1.2em;
+	float: left;
+	font-weight: normal;
+	margin: 0px 5px 5px 0;
+	width: 270px;
+	text-align: right;
+}
+
+#double .pers span {
+	display: block;
+	margin: 0 0 3px 0;
+	font: 0.7em Verdana, Arial, Helvetica, sans-serif;
+	color: #999;
+}
+
+#double p.p1 {
+	margin: 5px 0 5px 0;
+	font-size: 14px;
+}
+
+#double p.p1 textarea {
+	margin-top: 10px;
+	height: 50px;
+}
+
+#double p.p2 {
+	margin: 20px 0 0 0;
+}
+
+#double p.p3 {
+	margin: 5px 0 0 0;
+}
+
+#double textarea {
+	width: 763px;
+	height: 300px;
+	margin-bottom: 10px;
+}
+
+#recipients p {
+	margin: 10px 0;
+}
+
+.nav {
+	padding: 12px 0 5px 0;
+	border-bottom: 1px dashed #ccc;
+}
+
+#lists .nav {
+	padding: 0 0 5px 0;
+	margin-bottom: 20px;
+	font-size: 12px;
+}
+
+#remove .nav {
+	font-size: 10px;
+}
+
+#list-import .nav {
+	font-size: 12px;
+	padding-top: 0;
+}
+
+#rename .nav, #total-list .nav {
+	font-size: 10px;
+	margin-bottom: 20px;
+}
+
+#stats .nav, #stats .nav a {
+	float: left;
+	padding-top: 0;
+}
+
+#stats .nav select {
+	font-size: 12px;
+}
+
+#stats .nav span {
+	float: right;
+}
+
+#lists #camp h3 {
+	font-size: 1.1em;
+}
+
+#lists #camp strong {
+	font-size: 1.2em;
+	color: #999;
+	padding-right: 5px;
+}
+
+#stats table {
+	width: 100%;
+	font-size: 13px; 
+}
+
+#stats th, #stats td {
+	color: #666;
+	border-bottom: 1px dashed #ccc;
+	text-align: left;
+}
+
+#stats th {
+	font-weight: bold; 
+	width: 70px;
+	padding-left: 13px;
+	color: #767676;
+}
+
+#stats td {
+	font-weight: normal;
+}
+
+#stats thead th, #stats thead td {
+	background: url(../i/camp-bg.gif) repeat-x; 
+	padding: 0;
+}
+
+#stats thead th span {
+	background: url(../i/corn-up-l.gif) no-repeat left top; 
+	padding: 10px 0 5px 13px;
+	display: block;
+}
+
+#stats thead td span {
+	background: url(../i/corn-up-r.gif) no-repeat right top;
+	padding: 10px 0 5px 0;
+	display: block;
+}
+
+#stats tbody th {
+	border-left: 1px solid #ccc;
+}
+
+#stats tbody td {
+	border-right: 1px solid #ccc;
+	padding-left: 0;
+}
+
+#stats tfoot td, #stats tfoot th {
+	border: 0;
+	padding: 0;
+	background: url(../i/camp-bg2.gif) repeat-x;
+	height: 41px;
+}
+
+#stats tfoot th span, #stats tfoot td span {
+	display: block;
+	padding-top: 10px;
+	height: 31px;
+}
+
+#stats tfoot th span {
+	background: url(../i/corn-bot-l.gif) no-repeat left bottom;  
+}
+
+#stats tfoot td span {
+	background: url(../i/corn-bot-r.gif) no-repeat right bottom;
+}
+
+.butt-recipients-o, .butt-new-list-o, .new-list2-b, .butt-mod-email-o, .butt-create-list-o, .butt-save-o, .butt-save2-o, .butt-insert-o, 
+.butt-test-o, .butt-recipients-b-o, .butt-add-o, .butt-add-o2, .butt-send-test-o, .butt-send-test-o2, .butt-mod-email-b-o, .butt-send-o, 
+.butt-send-now-o, .butt-send-this-time-o, .butt-test-b-o, .butt-rename-b-o, .butt-create-sublist-o, .butt-create-sublist2-o, 
+.butt-search-o, .butt-search2-o, .butt-projects-o, .butt-create-o, .butt-create2-o, .signin-b, .reactivate-b, .your-message-b,
+.cancel-b, .cancel2-b, .import-list-b, .subscribe-b, .unsubscribe-b {
+	height: 19px;
+	border: none;
+	cursor: pointer;
+	margin-left: 5px;
+}
+
+.signin-b {
+	background: url(../i/b/signin-b.gif) no-repeat left top;
+	width: 64px;
+	position: relative;
+	left: 100px;
+	margin: 5px 0 0 0;
+}
+
+.butt-recipients-o {
+	background: url(../i/b/recipients-b.gif) no-repeat left top;
+	width: 100px;
+}
+
+.butt-new-list-o {
+	background: url(../i/b/new-list-b.gif) no-repeat left top;
+	width: 74px;
+	margin-left: 5px;
+}
+
+.new-list2-b {
+	background: url(../i/b/new-list2-b.png) no-repeat left top;
+	width: 68px;
+	margin-left: 5px;
+}
+
+.butt-mod-email-o {
+	background: url(../i/b/mod-email-b.gif) no-repeat left top;
+	width: 151px;
+	float: right;
+}
+
+.butt-rename-b-o {
+	background: url(../i/b/rename-b.gif) no-repeat left top;
+	width: 73px;
+}
+
+.butt-create-list-o {
+	background: url(../i/b/create-list-b.gif) no-repeat left top;
+	width: 123px;
+}
+
+.butt-save-o {
+	background: url(../i/b/save-b.gif) no-repeat left top;
+	width: 42px;
+}
+
+.butt-save2-o {
+	background: url(../i/b/save2-b.png) no-repeat left top;
+	width: 47px;
+}
+
+.butt-insert-o {
+	background: url(../i/b/insert-b.gif) no-repeat left top;
+	width: 58px;
+}
+
+.butt-recipients-b-o {
+	background: url(../i/b/recipients2-b.gif) no-repeat left top;
+	width: 100px;
+}
+
+.butt-test-o {
+	background: url(../i/b/test-b.gif) no-repeat left top;
+	width: 55px;
+}
+
+.butt-add-o {
+	background: url(../i/b/add2-b.gif) no-repeat left top;
+	width: 36px;
+}
+
+.butt-add-o2 {
+	background: url(../i/b/add-b.gif) no-repeat left top;
+	width: 46px;
+}
+
+.butt-send-test-o {
+	background: url(../i/b/send-test2-b.gif) no-repeat left top;
+	width: 283px;
+	float: left;
+	clear: both;
+	margin-top: 20px;
+}
+
+.butt-send-test-o2 {
+	background: url(../i/b/send-test-b.gif) no-repeat left top;
+	width: 89px;
+}
+
+.butt-mod-email-b-o {
+	background: url(../i/b/mod-email2-b.gif) no-repeat left top;
+	width: 153px;
+	margin-right: 30px;
+}
+
+.butt-send-o {
+	background: url(../i/b/send-b.gif) no-repeat left top;
+	width: 56px;
+}
+
+.butt-send-now-o {
+	background: url(../i/b/send-now-b.png) no-repeat left top;
+	width: 79px;
+	margin: 0 20px 0 0;
+}
+
+.butt-send-this-time-o {
+	background: url(../i/b/send-this-time2-b.png) no-repeat left top;
+	width: 182px;
+	position: relative;
+	left: 323px;
+}
+
+.butt-test-b-o {
+	background: url(../i/b/test2-b.gif) no-repeat left top;
+	width: 56px;
+}
+
+.butt-create-sublist-o {
+	background: url(../i/b/create-sublist-b.gif) no-repeat left top;
+	width: 129px;
+	display: block;
+	margin-top: 10px;
+}
+
+.butt-create-sublist2-o {
+	background: url(../i/b/create-sublist2-b.png) no-repeat left top;
+	width: 114px;
+}
+
+.butt-search-o {
+	background: url(../i/b/search-b.gif) no-repeat left top;
+	width: 62px;
+}
+
+.butt-search2-o {
+	background: url(../i/b/search2-b.png) no-repeat left top;
+	width: 61px;
+}
+
+.butt-projects-o {
+	background: url(../i/b/projects-b.gif) no-repeat left top;
+	width: 79px;
+}
+
+.butt-create-o {
+	background: url(../i/b/create-b.gif) no-repeat left top;
+	width: 61px;
+}
+
+.butt-create2-o {
+	background: url(../i/b/create2-b.gif) no-repeat left top;
+	width: 61px;
+}
+
+.reactivate-b {
+	background: url(../i/b/reactivate-b.gif) no-repeat left top;
+	width: 152px;
+	margin-left: 0;
+}
+
+.your-message-b {
+	background: url(../i/b/your-message-b.gif) no-repeat left top;
+	width: 123px;
+	float: right;
+}
+
+.cancel-b {
+	background: url(../i/b/cancel-b.gif) no-repeat left top;
+	width: 63px;
+}
+
+.cancel2-b {
+	background: url(../i/b/cancel-b.png) no-repeat left top;
+	width: 60px;
+}
+
+.import-list-b {
+	background: url(../i/b/import-list-b.gif) no-repeat left top;
+	width: 128px;
+}
+
+.subscribe-b {
+	background: url(../i/b/subscribe-b.png) no-repeat left top;
+	width: 80px;
+}
+
+.unsubscribe-b {
+	background: url(../i/b/unsubscribe-b.png) no-repeat left top;
+	width: 95px;
+}
+
+/* Form Start */
+fieldset {
+	border: none;
+	margin: 0;
+}
+
+fieldset#signin2 {
+	font-size: 1.2em;
+	margin-top: 15px;
+}
+
+fieldset#signin2 label {
+	width: 75px;
+	color: #333;
+}
+
+p.signin-p {
+	font-size: 1.2em;
+	margin-top: 20px;
+	border-top: 1px solid #DEDEDE;
+	padding-top: 7px;
+}
+
+#groups fieldset {
+	padding: 20px 0 0 0;
+}
+
+#groups table fieldset {
+	padding: 0;
+}
+
+#edit-acnt fieldset, #users fieldset, #signup fieldset, #add-member fieldset {
+	padding: 15px;
+	margin: 25px 0 15px 0;
+	border: solid 1px #ddd;
+	width: auto;
+}
+
+#signup fieldset {
+	width: 400px;
+}
+
+#edit-acnt fieldset {
+	width: 80%;
+}
+
+#add-member fieldset {
+	margin-top: 15px;
+}
+
+#double fieldset {
+	margin-top: 10px;
+}
+
+fieldset legend {
+	font-weight: bold;
+	font-size: 1.35em;
+	padding: 5px;
+	color: #848484;
+}
+
+#groups table legend {
+	font-size: 1.1em;
+	padding: 0 0 12px 0;
+	color: #666;
+}
+
+#msg legend {
+	font-size: 1.2em;
+}
+
+fieldset label, fieldset input {
+	display: block;
+	float: left;
+	margin: 0 0 4px 0;
+}
+
+fieldset label {
+	padding-right: 5px;				
+	text-align: right;
+	width: 95px;
+	font-size: 1.2em;
+}
+
+#groups label {
+	width: auto;
+	padding-top: 2px;
+	font-weight: bold;
+}
+
+#groups table label {
+	width: auto;
+	font-size: 1em;
+	padding: 0 0 2px 7px;
+	font-weight: normal;
+}
+
+#signin label {
+	font-size: 1em;
+}
+
+#edit-acnt label {
+	width: 145px;
+}
+
+#add-member label {
+	width: 125px;
+}
+
+#users label {
+	width: 145px;
+}
+
+#signup label {
+	width: 145px;
+}
+
+#msg label  {
+	font-size: 1em;
+	width: 55px;
+}
+
+#double label {
+	padding-top: 2px;
+	width: 270px;
+}
+
+#double fieldset select {
+	margin-right: 7px;
+}
+
+fieldset select {
+	float: left;
+	margin-bottom: 5px;
+	margin-top: 5px;					
+}
+
+fieldset br {
+	clear: left;
+}
+
+fieldset .submit {
+	display: inline;
+	border-color: #ccc;
+	float: none;
+	margin-bottom: 0px;
+	cursor: pointer;
+	
+	/* ie 5.x hack - fixes margin bug 
+	http://www.tantek.com/CSS/Examples/boxmodelhack.html*/
+	margin-left: 95px;						
+	voice-family: "\"}\""; 
+	voice-family: inherit;
+	
+	/* reset the margin back */
+	margin-left: 100px;
+	margin-right: 0px;
+	margin-top: 5px;	
+}
+
+#signup fieldset .submit {
+	margin-left: 150px;
+}
+/* Form End */
+
+
+/* ----------------------------------------------------------------------------------------------------------------*/
+/* ---------->>> global settings needed for thickbox <<<-----------------------------------------------------------*/
+/* ----------------------------------------------------------------------------------------------------------------*/
+*{padding: 0; margin: 0;}
+
+html, body {
+min-height: 100%;
+height: auto !important;
+height: 100%
+}
+
+
+/* Sign in pop up */
+#TB_window a:hover {
+	text-decoration: underline;
+}
+
+#TB_overlay {
+	position: absolute;
+	z-index:100;
+	top: 0px;
+	left: 0px;
+	background-color:#000;
+	filter:alpha(opacity=60);
+	-moz-opacity: 0.6;
+	opacity: 0.6;
+}
+
+#TB_window {
+	position: absolute;
+	background: #ffffff;
+	z-index: 102;
+	display:none;
+	border: 4px solid #525252;
+	text-align:left;
+}
+
+#TB_window img {
+	display:block;
+	margin: 15px 0 0 15px;
+	border-right: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+}
+
+#TB_caption{
+	height:25px;
+	padding:7px 30px 10px 25px;
+	float:left;
+}
+
+#TB_closeWindow{
+	height:25px;
+	padding:11px 25px 10px 0;
+	float:right;
+}
+
+#TB_closeAjaxWindow{
+	padding:5px 10px 7px 0;
+	margin-bottom:1px;
+	text-align:right;
+	float:right;
+}
+
+#TB_closeAjaxWindow img {
+	border: 0;
+	margin-top: 3px;
+}
+
+#TB_ajaxWindowTitle{
+	float:left;
+	padding:7px 0 5px 10px;
+	margin-bottom:1px;
+}
+
+#TB_title{
+	background-color:#e8e8e8;
+	height:27px;
+	font-weight: bold;
+	font-size: 13px;
+	color: #f60;
+}
+
+#TB_ajaxContent{
+	clear:both;
+	padding:2px 15px 5px 15px;
+	overflow:auto;
+	text-align:left;
+	line-height:1.4em;
+}
+
+#TB_load{
+	position: absolute;
+	display:none;
+	height:100px;
+	width:100px;
+	z-index:101;
+}
+
+#TB_HideSelect{
+	z-index:99;
+	position:absolute;
+	top: 0;
+	left: 0;
+	background-color:#fff;
+	border:none;
+	filter:alpha(opacity=0);
+	-moz-opacity: 0;
+	opacity: 0;
+}
+
+#TB_iframeContent{
+	clear:both;
+	border:none;
+	margin-bottom:-1px;
+	margin-top:1px;
+	_margin-bottom:1px;
+}
+
+.loader {
+	color: #f60;
+	padding: 10px 0 0 10px;
+}
+
+.loader img {
+	padding-left: 5px;
+}
+
+#inscription, #clear {
+	background: none;
+	margin: 40px 0 0 0;
+}
+
+#inscription .compart {
+	font-size: 1.2em;
+}
+
+#inscription .compart div {
+	margin-left: 10px;
+}
+
+#inscription table {
+	clear: both;
+}
+
+#inscription h6 {
+	margin-bottom:10px;
+	font-size: 14px;
+}
+
+#inscription h1, #clear h1 {
+	margin-bottom: 15px;
+	color: #333;
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 5px;
+}
+
+#clear h1 {
+	border: 0;
+}
+
+body#clear {
+	margin: 20px;
+}
+
+#clear form {
+	display: inline;
+}
+
+#inscription strong {
+	display: block;
+	margin-bottom: 5px;
+}
+
+#inscription p {
+	margin: 15px 0 10px 0;
+	line-height: 28px;
+}
+
+#inscription p strong {
+	margin-bottom: 0;
+}
+
+#inscription p input {
+	margin-left: 5px;
+}

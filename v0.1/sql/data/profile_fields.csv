@@ -1,0 +1,25 @@
+source_column,view_column,field_label,contact_search,contact_filter,profile_label
+contact_id,contact_id,Contact ID,1,1,0
+client_id,client_id,Client ID,1,1,0
+full_name,full_name,Full Name,1,1,0
+email_address,email_address,Email Address,1,1,0
+email_permission,email_permission,Email Permission,1,1,0
+created_date,created_date,Date Created,0,1,0
+created_by,created_by,Created By,0,1,0
+modified_date,modified_date,Date Modified,0,1,0
+modified_by,modified_by,Modified By,0,1,0
+title,profile_field_01,Title,1,1,1
+first_name,profile_field_02,First Name,1,1,1
+last_name,profile_field_03,Last Name,1,1,1
+company,profile_field_04,Company,1,1,1
+department,profile_field_05,Department,1,1,1
+address_1,profile_field_06,Address 1,1,1,1
+address_2,profile_field_07,Address 2,1,1,1
+address_3,profile_field_08,Address 3,1,1,1
+address_4,profile_field_09,Address 4,1,1,1
+postcode,profile_field_10,Postcode,1,1,1
+phone_work,profile_field_11,Phone Work,1,1,1
+phone_mobile,profile_field_12,Phone Mobile,1,1,1
+fax,profile_field_13,Fax,1,1,1
+datamine_bdm,profile_field_14,Datamine BDM,1,1,1
+retail_watch_flag,profile_field_15,Retail Watch Flag,1,1,1

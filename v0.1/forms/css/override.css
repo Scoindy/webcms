@@ -1,0 +1,205 @@
+body {
+	font: 62.5% Arial, Helvetica, sans-serif;
+	padding: 0;
+	margin: 0;
+	background: url(../i/blast-bg.gif) repeat-x left top;
+	color: #6B6B6B;
+}
+
+table {
+}
+
+table a {
+	color: #E86319;
+}
+
+table a:hover {
+	text-decoration: underline;
+	color: #C64700;
+}
+
+thead {
+}
+
+tbody {
+}
+
+tfoot {
+}
+
+col {
+}
+
+th {
+	font-weight: normal;
+	text-align: left;
+	padding-left: 8px;
+	padding-right: 8px;
+}
+
+thead td, thead th {
+	color: #fff;
+	background: url(../i/bg-stats-open2.gif) repeat-x;
+	font-weight: bold;
+	height: 20px;
+	padding: 0 8px;
+	vertical-align: middle;
+}
+
+tbody td, tbody th {
+	background: none;
+	border-bottom: 1px solid #ccc;
+	padding: 3px 8px;
+}
+
+tfoot td, tfoot th {
+	font-weight: bold;
+}
+
+tr {	
+	padding: 0;
+	margin: 0;
+}
+
+td {
+	text-align: center;
+}
+
+div {
+}
+
+span {
+}
+
+p {
+}
+
+em {
+	font-style: italic;
+}
+
+blockquote {
+}
+
+h1 {
+	font-weight: normal;
+	font-size: 1.8em;
+	color: #FF7918;
+	margin: 0;
+}
+
+h1 input {
+	font-weight: normal;
+	font-size: 15px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	color: #E86319;
+	margin: 0;
+	padding: 0px 5px;
+	float: left;
+}
+
+h1 img {
+	margin-left: 5px;
+}
+
+h2 {
+	font-weight: normal;
+	font-size: 1.25em;
+	margin: 5px 0 20px 0;
+	clear: both;
+	color: #FF7918;
+}
+
+h2 a {
+	font-size: 1.1em;
+}
+
+h3 {
+	margin: 0;
+	padding: 30px 0 10px 0;
+	clear: both;
+	color: #848484;
+}
+
+h4 {
+}
+
+h5 {	
+	font: normal 0.7em Verdana, Arial, Helvetica, sans-serif;
+	margin: 10px 0 0 0;
+	color: #999;
+}
+
+h6 {
+	float: left;
+	text-align: right;
+}
+
+a {
+	text-decoration: none;
+	color: #369;
+}
+
+a:link,
+a:visited {	
+}
+
+a:hover {
+
+}
+
+a:active {
+}
+
+ul {	
+}
+
+ol {
+}
+
+li {
+}
+
+img {
+	border: none;
+}
+
+fieldset {
+}
+
+legend {
+}
+
+hr {
+}
+
+form {
+	display: inline;
+	padding: 0;
+	margin: 0;
+}
+
+input, select, textarea {
+	border: 1px solid #ccc;
+	color: #666;
+	background-color: #fbfbfb;
+}
+
+input {
+	padding-left: 2px;
+	padding-right: 0;
+}
+
+textarea {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+}
+
+select {
+}
+
+option {
+	padding: 0 3px;
+	width: auto;
+}

@@ -1,0 +1,702 @@
+/****
+*
+*
+*     Ext.Msg.alert('x1');
+*
+****/
+function users() {
+
+  /****
+  *  Function :
+  ****/
+  function f_reset_form (
+             p_form
+           ) {
+
+    /****
+    *  Form panels automatically create a basic form
+    *  and it's the basic for we have to resest
+    ****/
+    Ext.getCmp(p_form).getForm().reset();
+
+    /****
+    *  Disable the save button
+    ****/
+    Ext.getCmp('b_save').disable(true);
+
+  };
+
+  /****
+  *  Function :
+  ****/
+  function f_user (
+             p_grid,
+             p_record,
+             p_item,
+             p_index,
+             p_object
+           ) {
+
+    /****
+    *  Is called when a field value changes
+    ****/
+    function f_change (
+               p_event
+             ) {
+
+      /****
+      *  Toggle enabling of save
+      *  button depending on form validity
+      ****/
+      if ( Ext.getCmp('f_user').getForm().isValid() == true ) {
+        Ext.getCmp('b_save').enable(true);
+      } else {
+        Ext.getCmp('b_save').disable(true);
+      }
+
+      /****
+      *  Append 'modified' to the title
+      *
+      *  the title is on the window - not the panel
+      ****/
+      Ext.getCmp('w_user').setTitle(Ext.getCmp('u_full_name').getValue()+' (modified)');
+    }
+    
+    /****
+    *  Function :
+    ****/
+    function f_submit (
+               p_response,
+               p_action
+             ) {
+
+      /****
+      *  If we're inserting set a default indigo_user_id
+      ****/
+      if ( p_action == 'I' ) {
+        Ext.getCmp('u_user_id').setValue(0);
+        p_response = 'yes';
+      };
+
+      /****
+      *  Confirm save and recursively call function
+      ****/
+      if ( p_response == '-' ) {
+        if ( p_action == 'U' ) {
+
+          Ext.Msg.show ({
+             title         : 'Warning',
+             msg           : 'Are you sure you want to save changes?',
+             modal         : true,
+             buttons       : Ext.Msg.YESNO,
+             fn            : function (btn) {
+                               f_submit(btn, 'U')
+                             },
+             icon          : Ext.MessageBox.WARNING,
+             animateTarget : 'b_save'
+          });
+        };
+  
+        /****
+        *  Confirm delete and recursively call function
+        ****/
+        if ( p_action == 'D' ) {
+
+          Ext.Msg.show ({
+             title         : 'Warning',
+             msg           : 'Are you sure you want to delete this user?',
+             modal         : true,
+             buttons       : Ext.Msg.YESNO,
+             fn            : function (btn) {
+                               f_submit(btn, 'D')
+                             },
+             icon          : Ext.MessageBox.WARNING,
+             animateTarget : 'b_delete'
+          });
+        }
+      }
+
+      /****
+      *   Submit the form
+      ****/
+      if ( p_response == 'yes' ) {
+    Ext.Msg.alert('x1');
+        var form = Ext.getCmp('f_user').getForm();
+        form.submit({
+          clientValidation : false,
+          url              : 'user_maintenance.php',
+          waitMsg          : 'Saving. . .',
+          success          : function(form, action) {
+                               
+                               if ( p_action == 'I' ) {
+                                 Ext.Msg.alert('Status', 'New User Created');
+                               } else if (p_action == 'U') {
+                                 Ext.Msg.alert('Status', 'User Modified');
+                               } else {
+                                 Ext.Msg.alert('Status', 'User Deleted');
+                               }
+
+                               /****
+                               *  Close window
+                               ****/
+                               Ext.getCmp('w_user').close();
+
+                               /****
+                               *  Reload store
+                               ****/
+                               Ext.getCmp('g_user').getStore().loadPage(1);
+
+                             
+                             },
+          failure          : function(form, action) {
+
+                               if ( p_action == 'I' ) {
+                                 Ext.Msg.alert('Status', 'Error Creating User');
+                               } else if (p_action == 'U') {
+                                 Ext.Msg.alert('Status', 'Error Modifying User');
+                               } else {
+                                 Ext.Msg.alert('Status', 'Error Deleting User');
+                               }
+                             },
+          params           : {
+            action : p_action
+          }
+       });
+      }
+    };
+
+    /****
+    *  Button visibility based on action
+    ****/
+    if ( p_grid == undefined ) {
+      var v_action = 'I';
+      var v_hidden_pw   = true;
+      var v_hidden_cl   = false;
+      var v_hidden_dl   = true;
+      var v_disabled_pw = false;
+      var v_height_fs   = 90;
+    } else {
+      var v_action = 'U';
+      var v_hidden_pw   = false;
+      var v_hidden_cl   = true;
+      var v_hidden_dl   = false;
+      var v_disabled_pw = true;
+      var v_height_fs   = 125;
+
+      /****
+      *  Get the store and record
+      ****/
+      var rec   = p_grid.getStore().getAt(p_index);
+      var store = p_grid.getStore();
+    }
+
+    var f_user = Ext.create('Ext.form.Panel', {
+                        xtype         : 'form',
+                        autoScroll    : true,
+                        id            : 'f_user',
+                        fieldDefaults : {
+                          labelAlign  : 'left',
+                          labelWidth  : 110
+                        },
+/*
+                        listeners : {
+                          fieldvaliditychange: f_change2()
+                        },
+*/
+                        frame       : true,
+                        items       : [ {
+                          xtype      : 'hiddenfield',
+                          id         : 'u_user_id',
+                          name       : 'u_user_id',
+                          width      : 200,
+                          readOnly   : true
+                        }, {
+                          xtype      : 'hiddenfield',
+                          id         : 'u_full_name',
+                          name       : 'u_full_name',
+                          width      : 200,
+                          readOnly   : true
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u_username',
+                          name       : 'u_username',
+                          width      : 300,
+                          fieldLabel : 'Username',
+                          readOnly   : false,
+                          allowBlank : false,
+                          maxLength  : 32
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u_first_name',
+                          name       : 'u_first_name',
+                          width      : 300,
+                          fieldLabel : 'First Name',
+                          readOnly   : false,
+                          allowBlank : false,
+                          maxLength  : 32,
+                          listeners  : {
+                            change : f_change
+                          }
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u_last_name',
+                          name       : 'u_last_name',
+                          width      : 300,
+                          fieldLabel : 'Last Name',
+                          readOnly   : false,
+                          allowBlank : false,
+                          maxLength  : 32,
+                          listeners  : {
+                            change : f_change
+                          }
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u1_email',
+                          name       : 'u1_email',
+                          width      : 300,  
+                          fieldLabel : 'Emp',
+                          readOnly   : false,
+                          allowBlank : true,
+                          maxLength  : 64
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u_email',
+                          name       : 'u_email',
+                          width      : 300,  
+                          vtype      : 'email',
+                          fieldLabel : 'Email',
+                          readOnly   : false,
+                          allowBlank : true,
+                          maxLength  : 64,
+                          listeners  : {
+                            change : f_change
+                          }
+                        }, {
+                          xtype          : 'combobox',
+                          id             : 'u_role',
+                          name           : 'u_role',
+                          width          : 300,  
+                          store          : s_user_role,
+                          fieldLabel     : 'Role',
+                          valueField     : 'user_role_id',
+                          displayField   : 'user_role',
+                          value          : 'user_role',
+                          queryMode      : 'local',
+                          allowBlank     : false,
+                          forceSelection : true,
+                          emptyText      : 'select',
+                          listeners  : {
+                            change : f_change
+                          }
+                        }, {
+                          xtype          : 'combobox',
+                          id             : 'u_status',
+                          name           : 'u_status',
+                          width          : 300,  
+                          store          : s_user_status,
+                          fieldLabel     : 'Status',
+                          valueField     : 'user_status_id',
+                          displayField   : 'user_status',
+                          value          : 'user_status',
+                          queryMode      : 'local',
+                          allowBlank     : false,
+                          forceSelection : true,
+                          emptyText      : 'select',
+                          listeners  : {
+                            change : f_change
+                          }
+                        },  {
+                          xtype: 'fieldset',
+        collapsible: false,
+        collapsed: false,
+                          width : 300,
+                          height : v_height_fs,
+                        title: 'Password',
+                        layout: 'anchor',
+                         items : [{
+                          xtype      : 'textfield',
+                          id         : 'u_password1',
+                          name       : 'u_password1',
+                          width      : 250,
+//                          style      : 'margin-top:15px',
+                          inputType  : 'password',
+                          fieldLabel : 'Password',
+                          allowBlank : false,
+                          readOnly   : false,
+                          minLength  : 6, 
+                          maxLength  : 16, 
+                          disabled   : v_disabled_pw,
+                          listeners  : {
+                            change : f_change
+                          }
+                        }, {
+                          xtype      : 'textfield',
+                          id         : 'u_password2',
+                          name       : 'u_password2',
+                          width      : 250,
+                          inputType  : 'password',
+                          fieldLabel : 'Repeat Password',
+                          allowBlank : false,
+                          readOnly   : false,
+                          disabled   : v_disabled_pw,
+                          listeners  : {
+                            change : f_change
+                          },
+                          validator  : function(value) {
+                                         var p1 = this.previousSibling('[name=u_password1]');
+                                         return (value === p1.getValue()) ? true : 'Passwords do not match.'
+                                       }
+                        }, {
+                            xtype    : 'button',
+                        layout: 'centre',
+                            id       : 'b_password',
+                            name     : 'b_password',
+                            width    : 120,
+                            height   : 30,
+                            style    : 'margin : 4 1 1 90',  // top right bottom left
+                            disabled : false,
+                            frame    : true,
+                            border   : true,
+                            type     : 'submit',
+                            text     : 'Change Password',
+                            icon     : 'icons/web2_blue/16x16/Lock.png',
+                            cls      : 'x-btn-text-icon',
+                            hidden   : v_hidden_pw,
+                            handler  : function() {
+                                         Ext.getCmp('u_password1').setDisabled(false);
+                                         Ext.getCmp('u_password2').setDisabled(false);
+/*
+                                         Ext.getCmp('u_password1').setValue('');
+                                         Ext.getCmp('u_password2').setValue('');
+*/
+                                       }
+
+                         }]
+                       }],
+                        dockedItems    : [{
+                          xtype       : 'toolbar',
+                          id          : 'ua_t_bottom',
+                          name        : 'ua_t_bottom',
+                          dock        : 'bottom',
+                          layout      : {
+                            pack: 'center' 
+                          }, 
+                          items: [ {
+                            xtype    : 'button',
+                            id       : 'b_save',
+                            name     : 'b_save',
+                            width    : 80,
+                            height   : 30,
+//                            formBind : true,
+                            disabled : true,
+                            frame    : true,
+                            border   : true,
+                            type     : 'submit',
+                            text     : 'Save',
+                            icon     : 'icons/web2_blue/24x24/Save.png',
+                            cls      : 'x-btn-text-icon',
+                            handler  : function() {
+                                         f_submit('-', v_action)
+                                       }
+                            }, {
+                            xtype   : 'button',
+                            id      : 'b_delete',
+                            name    : 'b_delete',
+                            width   : 80,
+                            height  : 30,
+                            frame   : true,
+                            border  : true,
+                            type    : 'submit',
+                            text    : 'Delete',
+                            icon    : 'icons/web2_blue/24x24/Trash.png',
+                            cls     : 'x-btn-text-icon',
+                            hidden  : v_hidden_dl,
+                            handler : function() {
+                                        f_submit('-', 'D')
+                                      }
+
+                          }, {
+                            xtype   : 'button',
+                            id      : 'b_clear',
+                            name    : 'b_clear',
+                            width   : 80,
+                            height  : 30,
+                            type    : 'reset',
+                            text    : 'Clear',
+                            icon    : 'icons/web2_blue/24x24/Back.png',
+                            cls     : 'x-btn-text-icon',
+                            hidden  : v_hidden_cl,
+                            handler : function() {
+                                         f_reset_form('f_user');
+                                       }
+                          }]
+                        }]
+                      });
+
+
+    /****
+    *  Modal widow to hold user form
+    ****/
+    var w_user = Ext.create('Ext.Window', {
+                   id          : 'w_user',
+                   name        : 'w_user',
+                   title       : 'Add User',
+                   height      : 400,
+                   width       : 500,
+                   resizable   : false,
+                   draggable   : true,
+                   modal       : true,
+                   closeAction : 'destroy',
+                   layout      : 'fit',
+//                   animateTarget     : 'b_add',
+                   items       : [f_user]
+                 });
+
+
+    /****
+    *  If we are viewing or modifying
+    *  an existing user then populate form fields
+    ****/
+    if ( v_action == 'U' ) {
+
+      /****
+      *  Set the field values
+      ****/
+      Ext.getCmp('u_user_id').setValue(rec.get('user_id'));
+      Ext.getCmp('u_username').setValue(rec.get('username'));
+      Ext.getCmp('u_first_name').setValue(rec.get('first_name'));
+      Ext.getCmp('u_last_name').setValue(rec.get('last_name'));
+      Ext.getCmp('u_full_name').setValue(rec.get('full_name'));
+      Ext.getCmp('u_email').setValue(rec.get('email'));
+      Ext.getCmp('u_role').setValue(rec.get('user_role_id'));
+      Ext.getCmp('u_status').setValue(rec.get('user_status_id'));
+
+      /****
+      *  Set password fields to garbage
+      Ext.getCmp('u_password1').setValue('[[[[]]]]');
+      Ext.getCmp('u_password2').setValue('[[[[]]]]');
+      ****/
+
+      /****
+      *  Some fields cannot be modified
+      ****/
+      Ext.getCmp('u_username').setReadOnly(true);
+      Ext.getCmp('u_username').disable(true);
+
+      /****
+      *  Also set the window title
+      ****/
+      w_user.setTitle(rec.get('full_name'));
+
+      /****
+      *  Set the save button to be disabled
+      *  the field change listeners will have
+      *  fired when they are set above
+      ****/
+      Ext.getCmp('b_save').disable(true);
+
+      /****
+      *  Disable the save button form bind
+      Ext.getCmp('b_save').unbind(true);
+      ****/
+    }
+
+    /****
+    *  Open the window
+    ****/
+    w_user.show();
+
+  };
+
+  /****
+  *  Indigo user model
+  ****/
+  Ext.define('indigo.user_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'user_id',        type : 'int'}, 
+      { name : 'first_name',     type : 'string'}, 
+      { name : 'last_name',      type : 'string'}, 
+      { name : 'full_name',      type : 'string'},
+      { name : 'username',       type : 'string'}, 
+      { name : 'email',          type : 'string'},
+      { name : 'user_role_id',   type : 'int'},
+      { name : 'user_role',      type : 'string'},
+      { name : 'user_status_id', type : 'int'},
+      { name : 'user_status',    type : 'string'}
+    ]
+  });
+
+  /****
+  *  Indigo user roles model
+  ****/
+  Ext.define('indigo.user_role_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'user_role_id', type : 'int'}, 
+      { name : 'user_role',    type : 'string'}
+    ]
+  });
+
+  /****
+  *  Indigo user status model
+  ****/
+  Ext.define('indigo.user_status_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'user_status_id', type : 'int'}, 
+      { name : 'user_status',    type : 'string'}
+    ]
+  });
+
+  /****
+  *  User store
+  ****/
+  var s_user = Ext.create('Ext.data.Store', {
+                 model           : 'indigo.user_model',
+                 clearOnPageLoad : true,
+                 autoLoad        : true,
+                 proxy           : {
+                   type          : 'ajax',
+                   url           : 'fetch_users.php',
+                   actionMethods : {
+                     create  : 'POST',
+                     read    : 'POST',
+                     update  : 'POST',
+                     destroy : 'POST'
+                  },
+                  reader         : {
+                    id            : 'term',
+                    type          : 'json',
+                    root          : 'results',
+                    totalProperty : 'total'
+                  }     
+                },
+                extraParams      : {
+                  action : ''
+                }
+              });
+
+  /****
+  *  User role store
+  ****/
+  var s_user_role = Ext.create('Ext.data.Store', {
+                      model           : 'indigo.user_role_model',
+                      clearOnPageLoad : true,
+                      autoLoad        : true,
+                      proxy           : {
+                        type          : 'ajax',
+                        url           : 'fetch_user_roles.php',
+                      actionMethods : {
+                        create  : 'POST',
+                        read    : 'POST',
+                        update  : 'POST',
+                        destroy : 'POST'
+                      },
+                      reader         : {
+                        id            : 'term',
+                        type          : 'json',
+                        root          : 'results',
+                        totalProperty : 'total'
+                      }     
+                    }
+                  });
+
+  /****
+  *  User status store
+  ****/
+  var s_user_status = Ext.create('Ext.data.Store', {
+                        model           : 'indigo.user_status_model',
+                        clearOnPageLoad : true,
+                        autoLoad        : true,
+                        proxy           : {
+                          type          : 'ajax',
+                          url           : 'fetch_user_status.php',
+                        actionMethods : {
+                          create  : 'POST',
+                          read    : 'POST',
+                          update  : 'POST',
+                          destroy : 'POST'
+                        },
+                        reader         : {
+                          id            : 'term',
+                          type          : 'json',
+                          root          : 'results',
+                          totalProperty : 'total'
+                        }     
+                      }
+                    });
+
+  /****
+  *  User grid
+  ****/
+  return Ext.define('indigo.g_user', {
+           extend         : 'Ext.grid.Panel',
+           id             : 'g_user',
+           alias          : 'widget.g_user',
+           title          : 'Indigo Users',
+           store          : s_user,
+           trackMouseOver : true,
+           loadMask       : true,
+           enableHdMenu   : true,
+           autoRender     : true,
+           autoShow       : true,
+           layout         : 'fit',
+           stripeRows     : true,
+           listeners      : {
+             itemdblclick : f_user
+           },
+           columns        : [ {
+             id        : 'gu_c1',
+             text      : 'Name',
+             width     : 250,
+             sortable  : true,
+             dataIndex : 'full_name'
+           }, {
+             id        : 'gu_c2',
+             text      : 'Username',
+             flex      : 1,
+             sortable  : true,
+             dataIndex : 'username'
+           }, {
+             id        : 'gu_c3',
+             text      : 'Role',
+             flex      : 1,
+             sortable  : true,
+             dataIndex : 'user_role'
+           }, {
+             id        : 'gu_c4',
+             text      : 'Status',
+             flex      : 1,
+             sortable  : true,
+             dataIndex : 'user_status'
+           }], 
+           dockedItems    : [{
+             xtype       : 'pagingtoolbar',
+             id          : 'pt_bottom2',
+             name        : 'pt_bottom2',
+             store       : s_user,
+             dock        : 'bottom',
+             displayInfo : true,
+             displayMsg  : 'Displaying rows {0} - {1} of {2}',
+             emptyMsg    : "No data to display",
+             pageSize    : 25
+           }, {
+             xtype       : 'toolbar',
+             id          : 'ut_top',
+             name        : 'ut_top',
+             dock        : 'top',
+             items: [{
+               xtype   : 'button',
+               id      : 'b_add',
+               text    : 'Add User',
+               icon    : 'icons/web2_blue/16x16/Plus.png',
+               cls     : 'x-btn-text-icon',
+               handler : function() { 
+                           f_user()
+                         }
+             }]
+           }]
+         });
+
+};

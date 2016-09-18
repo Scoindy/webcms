@@ -1,0 +1,301 @@
+/*******************************************************************************
+* Indigo
+********************************************************************************
+* Name          : console.js
+* Description   : renders the Indigo console 
+* Author        : Scott Walkinshaw
+* Date          : 3rd June 2011
+* Parameters    : 
+* Comments      :
+********************************************************************************
+*                                                                          
+********************************************************************************
+* File Modification History                                                    *
+********************************************************************************
+* Inits | Vers | Date      | Description                                       *
+* SW    | 1.0  | 03 Jun 06 | Initial issue                                     *
+*******************************************************************************/
+Ext.Loader.setConfig({enabled:true});
+Ext.QuickTips.init();
+
+function f_console() {
+
+  /****
+  *  Load functions
+  *
+  *  p_ : panels
+  *  g_ : grids
+  ****/
+//  f_dashboard_dummy();
+  f_contacts(0);
+  f_filters();
+  f_segments();
+  f_campaigns();
+
+  /****
+  *  Dashboard model
+  ****/
+  Ext.define('indigo.dashboard_model', {
+    extend: 'Ext.data.Model',
+    fields: [
+      { name : 'logo_url',             type : 'string' },
+      { name : 'contact_total',        type : 'string' },
+      { name : 'contact_subscribed',   type : 'string' },
+      { name : 'contact_unsubscribed', type : 'string' },
+      { name : 'segment_count',        type : 'string' },
+      { name : 'campaign_count',       type : 'string' }
+    ]
+  });
+
+  /****
+  *  Dashboard store
+  ****/
+  var s_dashboard = Ext.create('Ext.data.Store', {
+                      model           : 'indigo.dashboard_model',
+                      clearOnPageLoad : true,
+                      autoLoad        : false,
+                      pageSize        : 20,
+                      proxy           : {
+                        type          : 'ajax',
+                        url           : 'fetch_dashboard.php',
+                        actionMethods : {
+                          create  : 'POST',
+                          read    : 'POST',
+                          update  : 'POST',
+                          destroy : 'POST'
+                        },
+                        reader        : {
+                          id            : 'term',
+                          type          : 'json',
+                          root          : 'results',
+                          totalProperty : 'total'
+                        }
+                      }
+                    });
+  
+  /****
+  *  Load the dashboard store with a callback
+  *  so console is not generated until load complete
+  ****/
+  s_dashboard.load ({
+    callback :  function(records, options, success) {
+
+      f_dashboard(records);
+
+      /****
+      *  Centre content panel
+      ****/
+      Ext.define('indigo.p_content', {
+                   extend     : 'Ext.panel.Panel',
+                   id         : 'p_content',
+                   name       : 'p_menu',
+                   alias      : 'widget.p_content',
+                   region     : 'center',
+                   layout     : 'card',
+                   animate    : true,
+                   activeItem : 0,
+                   border     : false,
+                   items      : [
+                     { 
+                       xtype : 'p_dashboard'
+                     },
+                     {
+                       xtype : 'g_contacts'
+                     },
+                     {
+                       xtype : 'g_filters'
+                     },
+                     {
+                       xtype : 'g_segments'
+                     },
+                     {
+                       xtype : 'g_campaigns'
+                     }
+                   ]
+    /*
+            items: [{ 
+              xtype : 'g_segments'
+            }, {
+              xtype : 'g_contacts'
+            }, {
+              xtype : 'g_user'
+            }, {
+              xtype : 'g_segments'
+            }, {
+              xtype : 'p_reports'
+            }, {
+              xtype : 'g_library'
+            }]
+    */
+          });
+    
+      /****
+      *  Menu
+      ****/
+      Ext.define('indigo.p_menu', {
+                   extend         : 'Ext.panel.Panel',
+                   id             : 'p_menu',
+                   name           : 'p_menu',
+                   alias          : 'widget.p_menu',
+                   title          : 'Menu',
+                   trackMouseOver : true,
+                   enableHdMenu   : true,
+                   bodyPadding    : 7,
+                   region         : 'west',
+                   frame          : true,
+                   border         : false,
+                   width          : 150,
+                   split          : false,
+                   collapsible    : true,
+                   items: [{
+                     xtype   : 'button',
+                     width   : 125,
+                     scale   : 'large',
+                     text    : 'Dashboard',
+                     icon    : 'icons/table_orange_32.png',
+                     cls     : 'x-btn-text-icon',
+                     handler : function() {
+                                 Ext.getCmp('p_content').layout.setActiveItem(0)
+                               }
+                   }, {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Contacts',
+                      icon    : 'icons/users_orange_32.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(1)
+                                }
+                    },
+                    {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Filters',
+                      icon    : 'icons/dots_down_orange_32.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(2)
+                                }
+                    },
+                    {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Segments',
+                      icon    : 'icons/stats_orange_32.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(3)
+                                }
+                    },
+                    {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Campaigns',
+                      icon    : 'icons/discuss_orange_32.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(4)
+                                }
+                    }
+    
+    
+    /*, {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Segments',
+                      icon    : 'icons/tree.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(2)
+                                }
+                    }, {
+                      xtype   : 'button',
+                      width   : 125,
+                      scale   : 'large',
+                      text    : 'Digital Library',
+                      icon    : 'icons/ipod.png',
+                      cls     : 'x-btn-text-icon',
+                      handler : function() {
+                                  Ext.getCmp('p_content').layout.setActiveItem(4)
+                                }
+                   }]
+    */
+    ]
+                 });
+    
+      /****
+      *  Status bar
+      Ext.define('indigo.p_statusbar', {
+                   extend         : 'Ext.ux.StatusBar',
+                   id             : 'sb_console',
+                   name           : 'sb_console',
+                   alias          : 'widget.sb_console',
+                   items: [
+                     {
+                       xtype      : 'displayfield',
+                       id         : 'db_c_build',
+                       fieldLabel : 'Build 0.2a'
+                     }
+                  ]
+                });
+      ****/
+    
+      /****
+      *  Console window
+      ****/
+      var w_console = new Ext.Window ({
+                        title       : 'Indigo Console',
+                        id          : 'console',
+                        layout      : 'border',
+                        width       : 800,
+                        height      : 600,
+                        resizable   : false,
+                        draggable   : true,
+                        modal       : true,
+    /*
+                        dockedItems : [ 
+                          {
+                            xtype  : 'toolbar',
+                            id     : 'wc_tb',
+                            dock   : 'bottom',
+                            height : 30,
+                            items  : [
+                              {
+                                xtype : 'tbspacer',
+                                id    : 'wc_tb_spacer1',
+                                width : 5
+                              },
+                              { 
+                                xtype : 'displayfield',
+                                id    : 'wc_tb_build',
+                                value : '<b>Build:0.2a</b>' 
+                              }
+                            ]
+                          }
+                        ],
+    */
+                        items : [
+                          {
+                            xtype : 'p_menu'
+                          }, 
+                          {
+                            xtype : 'p_content'
+                          }
+                        ]
+                      });
+    
+      /****
+      *  Display the console window
+      ****/
+      w_console.show();
+
+    }
+  });
+}
+
+Ext.onReady(f_console);
